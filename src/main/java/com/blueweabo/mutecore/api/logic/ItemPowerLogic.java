@@ -16,6 +16,12 @@ public class ItemPowerLogic implements PowerLogic {
     private long startingBurnTime;
     private long currentBurnTime;
 
+    public ItemPowerLogic(ItemInventoryLogic container, ItemStack itemToBurn, long startingBurnTime) {
+        this.container = container;
+        this.itemToBurn = itemToBurn;
+        this.startingBurnTime = startingBurnTime;
+    }
+
     @Override
     public boolean consume(long tick) {
         if (currentBurnTime > 0) {

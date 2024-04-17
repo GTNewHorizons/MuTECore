@@ -15,4 +15,8 @@ public interface InventoryLogic<T> {
     @Nullable T extract(T request, long amount, boolean doExtract);
 
     @Nullable T insert(T request, long amount, boolean doInsert);
+
+    @Nullable T get(int slot);
+
+    int getSlots();
 }

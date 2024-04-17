@@ -46,39 +46,54 @@ public class ItemInventoryLogic implements InventoryLogic<IItemStackLong> {
 
     @Override
     public @Nullable IItemStackLong extract(IItemStackLong request, long amount, boolean doExtract) {
-        if (amount <= 0) return null;
+        if (amount <= 0)
+            return null;
         request = request.copy();
         request.setStackSize(1);
-        int slot = (int)quickAccess.getOrDefault(request, -1);
+        int slot = (int) quickAccess.getOrDefault(request, -1);
         if (slot >= 0 && request.isItemEqual(handler.getStackInSlotLong(slot))) {
-            return handler.extractItemLong(slot, amount, doExtract);
+            return handler.extractItemLong(slot, amount, !doExtract);
         }
         slot = findSlotFromItem(request);
-        if (slot < 0) return null;
+        if (slot < 0)
+            return null;
         quickAccess.put(request, slot);
-        return handler.extractItemLong(slot, amount, doExtract);
+        return handler.extractItemLong(slot, amount, !doExtract);
     }
 
     @Override
     public @Nullable IItemStackLong insert(IItemStackLong request, long amount, boolean doInsert) {
-        if (amount <= 0) return null;
+        if (amount <= 0)
+            return null;
         request.setStackSize(1);
         int slot = (int) quickAccess.getOrDefault(request, -1);
         IItemStackLong toInsert = request.copy();
         toInsert.setStackSize(amount);
         if (slot >= 0 && request.isItemEqual(handler.getStackInSlotLong(slot))) {
-            return handler.insertItemLong(slot, toInsert, doInsert);
+            return handler.insertItemLong(slot, toInsert, !doInsert);
         }
         slot = findSlotFromItem(request);
-        if (slot < 0) return null;
+        if (slot < 0)
+            return null;
         quickAccess.put(request, slot);
-        return handler.insertItemLong(slot, toInsert, doInsert);
+        return handler.insertItemLong(slot, toInsert, !doInsert);
+    }
+
+    @Override
+    public @Nullable IItemStackLong get(int slot) {
+        return handler.getStackInSlotLong(slot);
+    }
+
+    @Override
+    public int getSlots() {
+        return handler.getSlots();
     }
 
     @Nullable
     protected int findSlotFromItem(IItemStackLong item) {
         for (int i = 0; i < handler.getSlots(); i++) {
-            if (item.isItemEqual(handler.getStackInSlotLong(i))) return i;
+            if (item.isItemEqual(handler.getStackInSlotLong(i)))
+                return i;
         }
         return -1;
     }

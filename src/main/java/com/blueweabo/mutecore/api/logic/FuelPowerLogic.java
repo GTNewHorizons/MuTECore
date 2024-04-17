@@ -13,6 +13,10 @@ public class FuelPowerLogic implements PowerLogic {
     private ItemInventoryLogic container;
     private long burnTime;
 
+    public FuelPowerLogic(ItemInventoryLogic container) {
+        this.container = container;
+    }
+
     @Override
     public boolean consume(long tick) {
         if (burnTime > 0) {
