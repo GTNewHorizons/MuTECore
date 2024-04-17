@@ -30,7 +30,7 @@ public class FluidInventoryLogic implements InventoryLogic<IFluidTankLong> {
     }
 
     @Override
-    public @Nullable IFluidTankLong extract(IFluidTankLong request, long amount, boolean doExtract) {
+    public @Nullable IFluidTankLong extract(@Nullable IFluidTankLong request, long amount, boolean doExtract) {
         int slot = (int) quickAccess.getLong(request);
         if (slot >= 0 && request.getRealFluid() == handler.getFluidInTank(slot)) {
             long drained = handler.getTank(slot).drainLong(amount, doExtract);
@@ -39,8 +39,12 @@ public class FluidInventoryLogic implements InventoryLogic<IFluidTankLong> {
             return drainedTank;
         }
         slot = findSlotFromFluidTank(request);
-        if (slot < 0)
+        if (request == null) {
+            slot = 0;
+        }
+        if (slot < 0) {
             return null;
+        }
         long drained = handler.getTank(slot).drainLong(amount, doExtract);
         IFluidTankLong drainedTank = request.copy();
         drainedTank.setFluid(drainedTank.getRealFluid(), drained);
