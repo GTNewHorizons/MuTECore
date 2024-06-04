@@ -9,10 +9,9 @@ import com.cleanroommc.modularui.value.sync.GuiSyncManager;
 
 public abstract class GuiLogic<M extends GUIHost<D>, D extends PosGuiData> {
 
-    @Nonnull
-    private final M machine;
+    private final @Nonnull M machine;
 
-    public GuiLogic(M machine) {
+    public GuiLogic(@Nonnull M machine) {
         this.machine = machine;
     }
 
