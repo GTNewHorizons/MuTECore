@@ -4,7 +4,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.blueweabo.mutecore.api.logic.interfaces.PowerLogic;
 import com.cleanroommc.modularui.api.IItemStackLong;
-import com.cleanroommc.modularui.utils.item.ItemStackLongDelegate;
+import com.cleanroommc.modularui.utils.item.ItemStackLong;
 
 import net.minecraft.item.ItemStack;
 
@@ -28,7 +28,7 @@ public class ItemPowerLogic implements PowerLogic {
             currentBurnTime--;
             return true;
         }
-        IItemStackLong toExtract = new ItemStackLongDelegate(itemToBurn);
+        IItemStackLong toExtract = new ItemStackLong(itemToBurn);
         IItemStackLong extractedTry = container.extract(toExtract, 1, false);
         if (extractedTry == null || extractedTry.getStackSize() < 1) {
             return false;
