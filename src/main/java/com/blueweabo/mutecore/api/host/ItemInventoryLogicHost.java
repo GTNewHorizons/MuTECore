@@ -1,8 +1,13 @@
 package com.blueweabo.mutecore.api.host;
 
+import java.util.Objects;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.blueweabo.mutecore.api.logic.ItemInventoryLogic;
 import com.cleanroommc.modularui.api.IItemStackLong;
-import com.cleanroommc.modularui.utils.item.ItemStackLongDelegate;
+import com.cleanroommc.modularui.utils.item.ItemStackLong;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -11,22 +16,22 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public interface ItemInventoryLogicHost extends ISidedInventory {
 
-    default ItemInventoryLogic getItemLogic() {
-        return getItemLogic(ForgeDirection.UNKNOWN);
+    default @Nonnull ItemInventoryLogic getItemLogic() {
+        return Objects.requireNonNull(getItemLogic(ForgeDirection.UNKNOWN));
     }
 
-    ItemInventoryLogic getItemLogic(ForgeDirection side);
+    @Nullable ItemInventoryLogic getItemLogic(ForgeDirection side);
 
     @Override
     default boolean canExtractItem(int slot, ItemStack item, int side) {
         ItemInventoryLogic logic = getItemLogic(ForgeDirection.getOrientation(side));
-        return logic != null && logic.extract(new ItemStackLongDelegate(item), item.stackSize, false) != null;
+        return logic != null && logic.extract(new ItemStackLong(item), item.stackSize, false) != null;
     }
 
     @Override
     default boolean canInsertItem(int slot, ItemStack item, int side) {
         ItemInventoryLogic logic = getItemLogic(ForgeDirection.getOrientation(side));
-        return logic != null && logic.extract(new ItemStackLongDelegate(item), item.stackSize, false) != null;
+        return logic != null && logic.extract(new ItemStackLong(item), item.stackSize, false) != null;
     }
 
     @Override

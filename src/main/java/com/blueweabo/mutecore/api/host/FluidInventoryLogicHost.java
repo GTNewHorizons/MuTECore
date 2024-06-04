@@ -1,5 +1,10 @@
 package com.blueweabo.mutecore.api.host;
 
+import java.util.Objects;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.blueweabo.mutecore.api.logic.FluidInventoryLogic;
 import com.cleanroommc.modularui.api.IFluidTankLong;
 import com.cleanroommc.modularui.utils.fluid.FluidTankLong;
@@ -9,15 +14,14 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
-import net.minecraftforge.fluids.IFluidTank;
 
 public interface FluidInventoryLogicHost extends IFluidHandler {
 
-    default FluidInventoryLogic getFluidLogic() {
-        return getFluidLogic(ForgeDirection.UNKNOWN);
+    default @Nonnull FluidInventoryLogic getFluidLogic() {
+        return Objects.requireNonNull(getFluidLogic(ForgeDirection.UNKNOWN));
     }
 
-    FluidInventoryLogic getFluidLogic(ForgeDirection side);
+    @Nullable FluidInventoryLogic getFluidLogic(ForgeDirection side);
 
     @Override
     default boolean canDrain(ForgeDirection from, Fluid fluid) {
