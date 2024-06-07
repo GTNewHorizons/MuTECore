@@ -1,4 +1,4 @@
-package com.blueweabo.mutecore.api.tile.base;
+package com.blueweabo.mutecore.api.tile;
 
 import javax.annotation.Nonnull;
 
@@ -11,15 +11,13 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class MultiTileEntity extends TileEntity implements IMultiTileEntity {
 
     private @Nonnull ForgeDirection facing = ForgeDirection.WEST;
-    private final boolean ticking;
 
-    public MultiTileEntity(boolean ticking) {
-        this.ticking = ticking;
+    public MultiTileEntity() {
     }
 
     @Override
     public final boolean canUpdate() {
-        return ticking;
+        return false;
     }
 
     @Override
