@@ -1,4 +1,4 @@
-package com.blueweabo.mutecore.api.tile.base;
+package com.blueweabo.mutecore.api.tile;
 
 import javax.annotation.Nonnull;
 

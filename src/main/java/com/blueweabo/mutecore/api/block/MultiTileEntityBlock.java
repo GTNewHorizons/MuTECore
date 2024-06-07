@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.blueweabo.mutecore.api.registry.MultiTileEntityRegistry;
-import com.blueweabo.mutecore.api.tile.base.IMultiTileEntity;
-import com.blueweabo.mutecore.api.tile.base.MultiTileEntity;
+import com.blueweabo.mutecore.api.tile.IMultiTileEntity;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
@@ -24,13 +23,13 @@ public class MultiTileEntityBlock extends BlockContainer {
 
     MultiTileEntityRegistry registry;
 
-    protected MultiTileEntityBlock(Material material) {
+    public MultiTileEntityBlock(Material material) {
         super(material);
     }
 
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
-        return null; //return registry.createTileEntity(meta);
+        return registry.createNewTileEntity(meta);
     }
 
     @Override

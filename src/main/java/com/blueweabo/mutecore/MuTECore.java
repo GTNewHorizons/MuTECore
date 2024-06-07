@@ -2,6 +2,7 @@ package com.blueweabo.mutecore;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.objectweb.asm.ClassReader;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
@@ -17,24 +18,31 @@ import dev.dominion.ecs.api.Composition;
 import dev.dominion.ecs.api.Dominion;
 import dev.dominion.ecs.api.Scheduler;
 import net.minecraft.client.Minecraft;
+import net.minecraft.launchwrapper.Launch;
+import net.minecraft.launchwrapper.LaunchClassLoader;
 import net.minecraftforge.common.MinecraftForge;
 
 @Mod(modid = MuTECore.MODID, version = Tags.VERSION, name = "MuTECore", acceptedMinecraftVersions = "[1.7.10]", dependencies = MuTECore.DEPENDENCIES)
 public class MuTECore {
-
     public static final String MODID = "mutecore";
     public static final Logger LOG = LogManager.getLogger(MODID);
     public static final String DEPENDENCIES = "required-after:gtnhlib@[0.2.7,);" +
         "required-after:modularui;" +
         "after:appliedenegistics2";
-
     @SidedProxy(clientSide = "com.blueweabo.mutecore.ClientProxy", serverSide = "com.blueweabo.mutecore.CommonProxy")
     public static CommonProxy proxy;
-    public static final Dominion ENGINE = Dominion.create("MuTE");
-    public static final Scheduler SYSTEMS = ENGINE.createScheduler();
+    public static Dominion ENGINE;
+    public static Scheduler SYSTEMS;
+    public static boolean ENABLE_TESTS;
+
+    public MuTECore() {
+    }
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        ENGINE = Dominion.create("MuTE");
+        SYSTEMS = ENGINE.createScheduler();
+        ENABLE_TESTS = (boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
         proxy.preInit(event);
     }
 
@@ -46,16 +54,11 @@ public class MuTECore {
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         proxy.postInit(event);
-        FMLCommonHandler.instance().bus().register(this);
+        FMLCommonHandler.instance().bus().register(new Runner());
     }
 
     @Mod.EventHandler
     public void serverStarting(FMLServerStartingEvent event) {
         proxy.serverStarting(event);
-    }
-
-    @SubscribeEvent
-    public void onServerTick(TickEvent.ServerTickEvent event) {
-        SYSTEMS.tick();
     }
 }

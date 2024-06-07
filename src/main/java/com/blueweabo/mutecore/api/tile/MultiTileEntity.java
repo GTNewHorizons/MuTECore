@@ -2,6 +2,7 @@ package com.blueweabo.mutecore.api.tile;
 
 import javax.annotation.Nonnull;
 
+import dev.dominion.ecs.api.Entity;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -11,8 +12,12 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class MultiTileEntity extends TileEntity implements IMultiTileEntity {
 
     private @Nonnull ForgeDirection facing = ForgeDirection.WEST;
+    private Entity entity;
 
-    public MultiTileEntity() {
+    public MultiTileEntity() {}
+
+    public void setEntity(Entity entity) {
+        this.entity = entity;
     }
 
     @Override
