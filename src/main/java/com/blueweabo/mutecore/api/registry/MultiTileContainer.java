@@ -27,7 +27,8 @@ public class MultiTileContainer {
     }
 
     public boolean register() {
-        return reg.get() != null && reg.get().register(id, this);
+        return reg.get() != null && reg.get()
+            .register(id, this);
     }
 
     public Entity createNewEntity() {
@@ -50,5 +51,6 @@ public class MultiTileContainer {
         return clazz;
     }
 
-    private static class FakeEntity {}
+    private static class FakeEntity {
+    }
 }

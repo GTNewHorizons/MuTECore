@@ -2,14 +2,14 @@ package com.blueweabo.mutecore.api.item;
 
 import java.util.List;
 
-import com.blueweabo.mutecore.api.block.MultiTileEntityBlock;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
+
+import com.blueweabo.mutecore.api.block.MultiTileEntityBlock;
 
 public class MultiTileEntityItem extends ItemBlock implements IFluidContainerItem {
 
@@ -24,8 +24,7 @@ public class MultiTileEntityItem extends ItemBlock implements IFluidContainerIte
     }
 
     @Override
-    public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> tooltip,
-        boolean f3h) {
+    public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> tooltip, boolean f3h) {
         super.addInformation(itemStack, player, tooltip, f3h);
     }
 

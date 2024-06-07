@@ -9,9 +9,11 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public interface IMultiTileEntity {
 
-    @Nonnull ForgeDirection getFacing();
+    @Nonnull
+    ForgeDirection getFacing();
 
-    @Nonnull World getWorld();
+    @Nonnull
+    World getWorld();
 
     int getXCoord();
 
@@ -27,5 +29,6 @@ public interface IMultiTileEntity {
 
     void onNeighborChange(@Nonnull IMultiTileEntity muteChanged);
 
-    boolean onBlockActivated(@Nonnull EntityPlayer player, @Nonnull ForgeDirection side, float subX, float subY, float subZ);
+    boolean onBlockActivated(@Nonnull EntityPlayer player, @Nonnull ForgeDirection side, float subX, float subY,
+        float subZ);
 }

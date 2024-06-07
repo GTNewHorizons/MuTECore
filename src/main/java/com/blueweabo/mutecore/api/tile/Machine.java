@@ -1,8 +1,9 @@
 package com.blueweabo.mutecore.api.tile;
 
-import dev.dominion.ecs.api.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import dev.dominion.ecs.api.Entity;
 
 public abstract class Machine extends MultiTileEntity implements IMachine {
 

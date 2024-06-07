@@ -1,12 +1,13 @@
 package com.blueweabo.mutecore.api.registry;
 
+import net.minecraft.tileentity.TileEntity;
+
 import com.blueweabo.mutecore.MuTECore;
 import com.blueweabo.mutecore.api.block.MultiTileEntityBlock;
 import com.blueweabo.mutecore.api.tile.MultiTileEntity;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMaps;
-import net.minecraft.tileentity.TileEntity;
 
 public class MultiTileEntityRegistry {
 
@@ -23,7 +24,8 @@ public class MultiTileEntityRegistry {
 
     public boolean register(long id, MultiTileContainer container) {
         if (map.containsKey(id)) {
-            MuTECore.LOG.error("There already exists a MultiTileEntity for id: " + id + " and block: " + block.getUnlocalizedName());
+            MuTECore.LOG.error(
+                "There already exists a MultiTileEntity for id: " + id + " and block: " + block.getUnlocalizedName());
             return false;
         }
         map.put(id, container);

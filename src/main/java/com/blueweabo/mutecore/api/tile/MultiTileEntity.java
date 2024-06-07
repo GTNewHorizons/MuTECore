@@ -2,12 +2,13 @@ package com.blueweabo.mutecore.api.tile;
 
 import javax.annotation.Nonnull;
 
-import dev.dominion.ecs.api.Entity;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import dev.dominion.ecs.api.Entity;
 
 public class MultiTileEntity extends TileEntity implements IMultiTileEntity {
 
@@ -51,19 +52,20 @@ public class MultiTileEntity extends TileEntity implements IMultiTileEntity {
     }
 
     @Override
-    public void onBlockPlaced() { }
+    public void onBlockPlaced() {}
 
     @Override
-    public void onBlockBroken() { }
+    public void onBlockBroken() {}
 
     @Override
-    public void onNeighborBlockChange(@Nonnull Block neighbor) { }
+    public void onNeighborBlockChange(@Nonnull Block neighbor) {}
 
     @Override
-    public void onNeighborChange(@Nonnull IMultiTileEntity muteChanged) { }
+    public void onNeighborChange(@Nonnull IMultiTileEntity muteChanged) {}
 
     @Override
-    public boolean onBlockActivated(@Nonnull EntityPlayer player, @Nonnull ForgeDirection side, float subX, float subY, float subZ) {
+    public boolean onBlockActivated(@Nonnull EntityPlayer player, @Nonnull ForgeDirection side, float subX, float subY,
+        float subZ) {
         return false;
     }
 

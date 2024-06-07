@@ -3,9 +3,6 @@ package com.blueweabo.mutecore.api.block;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.blueweabo.mutecore.api.registry.MultiTileEntityRegistry;
-import com.blueweabo.mutecore.api.tile.IMultiTileEntity;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -18,6 +15,9 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import com.blueweabo.mutecore.api.registry.MultiTileEntityRegistry;
+import com.blueweabo.mutecore.api.tile.IMultiTileEntity;
 
 public class MultiTileEntityBlock extends BlockContainer {
 
@@ -33,8 +33,7 @@ public class MultiTileEntityBlock extends BlockContainer {
     }
 
     @Override
-    public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
-    }
+    public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {}
 
     @Override
     public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) {
@@ -44,7 +43,7 @@ public class MultiTileEntityBlock extends BlockContainer {
     @Override
     public void onNeighborBlockChange(World worldIn, int x, int y, int z, Block neighbor) {
         super.onNeighborBlockChange(worldIn, x, y, z, neighbor);
-        TileEntity te = worldIn.getTileEntity(x,y,z);
+        TileEntity te = worldIn.getTileEntity(x, y, z);
         if (!(te instanceof IMultiTileEntity mute)) return;
         mute.onNeighborBlockChange(neighbor);
     }
@@ -52,24 +51,23 @@ public class MultiTileEntityBlock extends BlockContainer {
     @Override
     public void onNeighborChange(IBlockAccess world, int x, int y, int z, int tileX, int tileY, int tileZ) {
         super.onNeighborChange(world, x, y, z, tileX, tileY, tileZ);
-        TileEntity te = world.getTileEntity(x,y,z);
+        TileEntity te = world.getTileEntity(x, y, z);
         TileEntity changed = world.getTileEntity(tileX, tileY, tileZ);
         if (!(te instanceof IMultiTileEntity mute) || !(changed instanceof IMultiTileEntity changedMute)) return;
         mute.onNeighborChange(changedMute);
     }
 
-
     @Override
     public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX,
         float subY, float subZ) {
-        TileEntity te = worldIn.getTileEntity(x,y,z);
+        TileEntity te = worldIn.getTileEntity(x, y, z);
         if (!(te instanceof IMultiTileEntity mute)) return false;
-        return mute.onBlockActivated(player, ForgeDirection.getOrientation(side) , subX, subY, subZ);
+        return mute.onBlockActivated(player, ForgeDirection.getOrientation(side), subX, subY, subZ);
     }
 
     @Override
     public void breakBlock(World worldIn, int x, int y, int z, Block blockBroken, int meta) {
-        TileEntity te = worldIn.getTileEntity(x,y,z);
+        TileEntity te = worldIn.getTileEntity(x, y, z);
         if (!(te instanceof IMultiTileEntity mute)) {
             super.breakBlock(worldIn, x, y, z, blockBroken, meta);
             return;
@@ -81,7 +79,7 @@ public class MultiTileEntityBlock extends BlockContainer {
     @Override
     public void onBlockAdded(World worldIn, int x, int y, int z) {
         super.onBlockAdded(worldIn, x, y, z);
-        TileEntity te = worldIn.getTileEntity(x,y,z);
+        TileEntity te = worldIn.getTileEntity(x, y, z);
         if (!(te instanceof IMultiTileEntity mute)) return;
         mute.onBlockPlaced();
     }

@@ -1,12 +1,13 @@
 package com.blueweabo.mutecore.registry;
 
+import net.minecraft.block.material.Material;
+
 import com.blueweabo.mutecore.api.block.MultiTileEntityBlock;
 import com.blueweabo.mutecore.api.item.MultiTileEntityItem;
 import com.blueweabo.mutecore.api.registry.MultiTileEntityRegistry;
 import com.blueweabo.mutecore.api.tile.MultiTileEntity;
 
 import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.block.material.Material;
 
 public class TestRegistry implements Runnable {
 
@@ -18,6 +19,7 @@ public class TestRegistry implements Runnable {
         GameRegistry.registerBlock(BLOCK, MultiTileEntityItem.class, "mutecore.testtiles");
         REGISTRY = new MultiTileEntityRegistry(BLOCK);
     }
+
     @Override
     public void run() {
         REGISTRY.create(0, MultiTileEntity.class);
