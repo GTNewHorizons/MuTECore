@@ -8,14 +8,16 @@ import com.blueweabo.mutecore.api.tile.MultiTileEntity;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMaps;
+import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 
 public class MultiTileEntityRegistry {
 
     private final MultiTileEntityBlock block;
-    private final Long2ObjectMap<MultiTileContainer> map = Long2ObjectMaps.emptyMap();
+    private final Long2ObjectMap<MultiTileContainer> map = new Long2ObjectOpenHashMap<>();
 
     public MultiTileEntityRegistry(MultiTileEntityBlock block) {
         this.block = block;
+        block.setRegistry(this);
     }
 
     public MultiTileContainer create(long id, Class<? extends MultiTileEntity> clazz) {

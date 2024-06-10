@@ -3,9 +3,12 @@ package com.blueweabo.mutecore.api.block;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -18,6 +21,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import com.blueweabo.mutecore.api.registry.MultiTileEntityRegistry;
 import com.blueweabo.mutecore.api.tile.IMultiTileEntity;
+import com.blueweabo.mutecore.client.MultiTileBlockRenderer;
 
 public class MultiTileEntityBlock extends BlockContainer {
 
@@ -88,4 +92,15 @@ public class MultiTileEntityBlock extends BlockContainer {
     public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
         return super.getDrops(world, x, y, z, metadata, fortune);
     }
+
+    @Internal
+    public void setRegistry(MultiTileEntityRegistry registry) {
+        this.registry = registry;
+    }
+
+    @Override
+    public int getRenderType() {
+        return MultiTileBlockRenderer.INSTANCE.getRenderId();
+    }
+
 }

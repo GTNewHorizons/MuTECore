@@ -21,8 +21,10 @@ public class MultiTileContainer {
         originalEntity = MuTECore.ENGINE.createEntity(new FakeEntity());
     }
 
-    public MultiTileContainer addComponent(Object component) {
-        originalEntity.add(component);
+    public MultiTileContainer addComponents(Object... components) {
+        for (Object component : components) {
+            originalEntity.add(component);
+        }
         return this;
     }
 
@@ -50,6 +52,29 @@ public class MultiTileContainer {
     public Class<? extends MultiTileEntity> getTileEntityClass() {
         return clazz;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (int) (id ^ (id >>> 32));
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        MultiTileContainer other = (MultiTileContainer) obj;
+        if (id != other.id)
+            return false;
+        return true;
+    }
+
 
     private static class FakeEntity {
     }

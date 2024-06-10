@@ -2,6 +2,8 @@ package com.blueweabo.mutecore.api.tile;
 
 import javax.annotation.Nonnull;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -67,6 +69,11 @@ public class MultiTileEntity extends TileEntity implements IMultiTileEntity {
     public boolean onBlockActivated(@Nonnull EntityPlayer player, @Nonnull ForgeDirection side, float subX, float subY,
         float subZ) {
         return false;
+    }
+
+    @Internal
+    public Entity getEntity() {
+        return entity;
     }
 
 }

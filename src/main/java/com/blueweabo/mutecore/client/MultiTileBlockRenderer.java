@@ -2,15 +2,31 @@ package com.blueweabo.mutecore.client;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.init.Blocks;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import com.blueweabo.mutecore.api.block.MultiTileEntityBlock;
+import com.blueweabo.mutecore.api.data.BaseTexture;
+import com.blueweabo.mutecore.api.tile.MultiTileEntity;
+import com.blueweabo.mutecore.api.utils.RenderHelper;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+import cpw.mods.fml.client.registry.RenderingRegistry;
+import dev.dominion.ecs.api.Entity;
 
 public class MultiTileBlockRenderer implements ISimpleBlockRenderingHandler {
 
-    // public static final MultiTileRenderer INSTANCE = new MultiTileRenderer();
+    private final int renderId;
+    public static MultiTileBlockRenderer INSTANCE;
+
+    public MultiTileBlockRenderer() {
+        renderId = RenderingRegistry.getNextAvailableRenderId();
+        INSTANCE = this;
+        RenderingRegistry.registerBlockHandler(this);
+    }
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
@@ -20,7 +36,17 @@ public class MultiTileBlockRenderer implements ISimpleBlockRenderingHandler {
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
-        if (!(block instanceof MultiTileEntityBlock muBlock)) return false;
+        if (!(block instanceof MultiTileEntityBlock)) return false;
+
+        TileEntity te = world.getTileEntity(x, y, z);
+        if (!(te instanceof MultiTileEntity mute)) return false;
+
+        Entity entity = mute.getEntity();
+        BaseTexture texture = entity.get(BaseTexture.class);
+        if (texture != null) {
+            IIcon icon = texture.getTexture();
+            renderer.renderFaceXNeg(Blocks.air, x, y, z, icon);
+        }
 
         return true;
     }
@@ -32,7 +58,7 @@ public class MultiTileBlockRenderer implements ISimpleBlockRenderingHandler {
 
     @Override
     public int getRenderId() {
-        return 1024;
+        return renderId;
     }
 
 }
