@@ -40,6 +40,7 @@ public class MuTECore {
         if (ENABLE_TESTS) {
             new TestRegistry().run();
             SystemRegistrator.registerProcessingSystem();
+            SystemRegistrator.registerOtherSystem();
         }
         GameRegistry.registerTileEntity(MultiTileEntity.class, "multitileentity");
         proxy.preInit(event);

@@ -4,6 +4,11 @@ import javax.annotation.Nonnull;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
+import com.cleanroommc.modularui.api.IGuiHolder;
+import com.cleanroommc.modularui.factory.PosGuiData;
+import com.cleanroommc.modularui.screen.ModularPanel;
+import com.cleanroommc.modularui.value.sync.GuiSyncManager;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -12,7 +17,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import dev.dominion.ecs.api.Entity;
 
-public class MultiTileEntity extends TileEntity implements IMultiTileEntity {
+public class MultiTileEntity extends TileEntity implements IGuiHolder<PosGuiData>{
 
     private @Nonnull ForgeDirection facing = ForgeDirection.WEST;
     private Entity entity;
@@ -28,52 +33,14 @@ public class MultiTileEntity extends TileEntity implements IMultiTileEntity {
         return false;
     }
 
-    @Override
-    public final ForgeDirection getFacing() {
-        return facing;
-    }
-
-    @Override
-    public final World getWorld() {
-        return getWorldObj();
-    }
-
-    @Override
-    public int getXCoord() {
-        return xCoord;
-    }
-
-    @Override
-    public int getYCoord() {
-        return yCoord;
-    }
-
-    @Override
-    public int getZCoord() {
-        return zCoord;
-    }
-
-    @Override
-    public void onBlockPlaced() {}
-
-    @Override
-    public void onBlockBroken() {}
-
-    @Override
-    public void onNeighborBlockChange(@Nonnull Block neighbor) {}
-
-    @Override
-    public void onNeighborChange(@Nonnull IMultiTileEntity muteChanged) {}
-
-    @Override
-    public boolean onBlockActivated(@Nonnull EntityPlayer player, @Nonnull ForgeDirection side, float subX, float subY,
-        float subZ) {
-        return false;
-    }
-
     @Internal
     public Entity getEntity() {
         return entity;
+    }
+
+    @Override
+    public ModularPanel buildUI(PosGuiData data, GuiSyncManager syncManager) {
+        return new ModularPanel("test");
     }
 
 }

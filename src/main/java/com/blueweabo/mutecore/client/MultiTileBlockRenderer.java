@@ -11,7 +11,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 import com.blueweabo.mutecore.api.block.MultiTileEntityBlock;
 import com.blueweabo.mutecore.api.data.BaseTexture;
 import com.blueweabo.mutecore.api.tile.MultiTileEntity;
-import com.blueweabo.mutecore.api.utils.RenderHelper;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;

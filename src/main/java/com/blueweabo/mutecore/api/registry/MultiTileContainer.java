@@ -2,6 +2,9 @@ package com.blueweabo.mutecore.api.registry;
 
 import java.lang.ref.WeakReference;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.blueweabo.mutecore.MuTECore;
 import com.blueweabo.mutecore.api.data.BaseTexture;
 import com.blueweabo.mutecore.api.tile.MultiTileEntity;
@@ -11,21 +14,21 @@ import net.minecraft.util.ResourceLocation;
 
 public class MultiTileContainer {
 
-    private final Class<? extends MultiTileEntity> clazz;
+    private final @Nonnull Class<? extends MultiTileEntity> clazz;
     private final long id;
-    private final WeakReference<MultiTileEntityRegistry> reg;
-    private final Entity originalEntity;
-    private IconContainer baseTexture;
-    private IconContainer[][] overlayTextures = new IconContainer[6][];
+    private final @Nonnull WeakReference<MultiTileEntityRegistry> reg;
+    private final @Nonnull Entity originalEntity;
+    private @Nonnull IconContainer baseTexture;
+    private @Nonnull IconContainer[][] overlayTextures = new IconContainer[6][];
 
-    public MultiTileContainer(MultiTileEntityRegistry reg, long id, Class<? extends MultiTileEntity> clazz) {
+    public MultiTileContainer(@Nonnull MultiTileEntityRegistry reg, long id, @Nonnull Class<? extends MultiTileEntity> clazz) {
         this.reg = new WeakReference<>(reg);
         this.clazz = clazz;
         this.id = id;
         originalEntity = MuTECore.ENGINE.createEntity(new FakeEntity());
     }
 
-    public MultiTileContainer addComponents(Object... components) {
+    public @Nonnull MultiTileContainer addComponents(Object... components) {
         for (Object component : components) {
             originalEntity.add(component);
         }
@@ -37,7 +40,7 @@ public class MultiTileContainer {
      * Uses mutecore as the modid.
      * They are automatically registered.
      */
-    public MultiTileContainer texturePath(String path) {
+    public @Nonnull MultiTileContainer texturePath(@Nonnull String path) {
         return texturePath(MuTECore.MODID, path);
     }
 
@@ -46,7 +49,7 @@ public class MultiTileContainer {
      * Uses the modid given from the function to register the icons
      * They are automatically registered.
      */
-    public MultiTileContainer texturePath(String modid, String path) {
+    public @Nonnull MultiTileContainer texturePath(@Nonnull String modid, @Nonnull String path) {
         baseTexture = new IconContainer(new ResourceLocation(modid, path+"/base").toString());
         return this;
     }
@@ -57,14 +60,14 @@ public class MultiTileContainer {
             .register(id, this);
     }
 
-    public Entity createNewEntity() {
+    public @Nonnull Entity createNewEntity() {
         Entity newEntity = MuTECore.ENGINE.createEntityAs(originalEntity);
         newEntity.removeType(FakeEntity.class);
         if (baseTexture != null) newEntity.add(new BaseTexture(baseTexture.getIcon()));
         return newEntity;
     }
 
-    public MultiTileEntity createNewTileEntity() {
+    public @Nullable MultiTileEntity createNewTileEntity() {
         try {
             MultiTileEntity entity = clazz.newInstance();
             return entity;
@@ -74,7 +77,7 @@ public class MultiTileContainer {
         }
     }
 
-    public Class<? extends MultiTileEntity> getTileEntityClass() {
+    public @Nonnull Class<? extends MultiTileEntity> getTileEntityClass() {
         return clazz;
     }
 
@@ -92,9 +95,8 @@ public class MultiTileContainer {
             return true;
         if (obj == null)
             return false;
-        if (getClass() != obj.getClass())
+        if (!(obj instanceof MultiTileContainer other))
             return false;
-        MultiTileContainer other = (MultiTileContainer) obj;
         if (id != other.id)
             return false;
         return true;
