@@ -6,6 +6,7 @@ import com.blueweabo.mutecore.MuTECore;
 import com.blueweabo.mutecore.api.block.MultiTileEntityBlock;
 import com.blueweabo.mutecore.api.tile.MultiTileEntity;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMaps;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;

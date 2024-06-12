@@ -31,6 +31,7 @@ public class MultiTileBlockRenderer implements ISimpleBlockRenderingHandler {
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
 
+
     }
 
     @Override
@@ -45,8 +46,14 @@ public class MultiTileBlockRenderer implements ISimpleBlockRenderingHandler {
         BaseTexture texture = entity.get(BaseTexture.class);
         if (texture != null) {
             IIcon icon = texture.getTexture();
-            renderer.renderFaceXNeg(Blocks.air, x, y, z, icon);
+            renderer.renderFaceXNeg(block, x, y, z, icon);
+            renderer.renderFaceXPos(block, x, y, z, icon);
+            renderer.renderFaceYNeg(block, x, y, z, icon);
+            renderer.renderFaceYPos(block, x, y, z, icon);
+            renderer.renderFaceZNeg(block, x, y, z, icon);
+            renderer.renderFaceZPos(block, x, y, z, icon);
         }
+
 
         return true;
     }

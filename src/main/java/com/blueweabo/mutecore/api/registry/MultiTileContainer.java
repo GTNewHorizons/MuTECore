@@ -3,9 +3,11 @@ package com.blueweabo.mutecore.api.registry;
 import java.lang.ref.WeakReference;
 
 import com.blueweabo.mutecore.MuTECore;
+import com.blueweabo.mutecore.api.data.BaseTexture;
 import com.blueweabo.mutecore.api.tile.MultiTileEntity;
 
 import dev.dominion.ecs.api.Entity;
+import net.minecraft.util.ResourceLocation;
 
 public class MultiTileContainer {
 
@@ -13,6 +15,8 @@ public class MultiTileContainer {
     private final long id;
     private final WeakReference<MultiTileEntityRegistry> reg;
     private final Entity originalEntity;
+    private IconContainer baseTexture;
+    private IconContainer[][] overlayTextures = new IconContainer[6][];
 
     public MultiTileContainer(MultiTileEntityRegistry reg, long id, Class<? extends MultiTileEntity> clazz) {
         this.reg = new WeakReference<>(reg);
@@ -28,7 +32,27 @@ public class MultiTileContainer {
         return this;
     }
 
+    /**
+     * Sets the texture path for the entity to use to get its textures from.
+     * Uses mutecore as the modid.
+     * They are automatically registered.
+     */
+    public MultiTileContainer texturePath(String path) {
+        return texturePath(MuTECore.MODID, path);
+    }
+
+    /**
+     * Sets the texture path for the entity to use to get its textures from.
+     * Uses the modid given from the function to register the icons
+     * They are automatically registered.
+     */
+    public MultiTileContainer texturePath(String modid, String path) {
+        baseTexture = new IconContainer(new ResourceLocation(modid, path+"/base").toString());
+        return this;
+    }
+
     public boolean register() {
+        if (baseTexture != null) TextureRegistry.addBlockIconToRegister(baseTexture);
         return reg.get() != null && reg.get()
             .register(id, this);
     }
@@ -36,6 +60,7 @@ public class MultiTileContainer {
     public Entity createNewEntity() {
         Entity newEntity = MuTECore.ENGINE.createEntityAs(originalEntity);
         newEntity.removeType(FakeEntity.class);
+        if (baseTexture != null) newEntity.add(new BaseTexture(baseTexture.getIcon()));
         return newEntity;
     }
 

@@ -39,5 +39,6 @@ dependencies {
     api("com.github.GTNewHorizons:ModularUI2:2.0.9-1.7.10:dev")
     api("dev.dominion.ecs:dominion-ecs-engine:0.9.0")
     api("dev.dominion.ecs:dominion-ecs-api:0.9.0")
+    //api("com.github.GTNewHorizons:Angelica:1.0.0-alpha52:dev")
 }
 

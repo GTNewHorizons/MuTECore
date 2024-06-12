@@ -24,6 +24,6 @@ public class TestRegistry implements Runnable {
 
     @Override
     public void run() {
-        REGISTRY.create(0, MultiTileEntity.class).addComponents(new BaseTexture()).register();
+        REGISTRY.create(0, MultiTileEntity.class).texturePath("test").register();
     }
 }

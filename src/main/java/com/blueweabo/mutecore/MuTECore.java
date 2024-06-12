@@ -5,6 +5,7 @@ import net.minecraft.launchwrapper.Launch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.blueweabo.mutecore.api.tile.MultiTileEntity;
 import com.blueweabo.mutecore.test.TestRegistry;
 
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -14,6 +15,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.registry.GameRegistry;
 import dev.dominion.ecs.api.Dominion;
 
 @Mod(modid = MuTECore.MODID, version = Tags.VERSION, name = "MuTECore", acceptedMinecraftVersions = "[1.7.10]", dependencies = MuTECore.DEPENDENCIES)
@@ -39,6 +41,7 @@ public class MuTECore {
             new TestRegistry().run();
             SystemRegistrator.registerProcessingSystem();
         }
+        GameRegistry.registerTileEntity(MultiTileEntity.class, "multitileentity");
         proxy.preInit(event);
     }
 
