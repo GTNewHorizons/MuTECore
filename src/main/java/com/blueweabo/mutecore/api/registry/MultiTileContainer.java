@@ -7,21 +7,23 @@ import javax.annotation.Nullable;
 
 import com.blueweabo.mutecore.MuTECore;
 import com.blueweabo.mutecore.api.data.BaseTexture;
+import com.blueweabo.mutecore.api.data.WorldStateValidator;
 import com.blueweabo.mutecore.api.tile.MultiTileEntity;
 
 import dev.dominion.ecs.api.Entity;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
 public class MultiTileContainer {
 
     private final @Nonnull Class<? extends MultiTileEntity> clazz;
-    private final long id;
+    private final int id;
     private final @Nonnull WeakReference<MultiTileEntityRegistry> reg;
     private final @Nonnull Entity originalEntity;
     private @Nonnull IconContainer baseTexture;
     private @Nonnull IconContainer[][] overlayTextures = new IconContainer[6][];
 
-    public MultiTileContainer(@Nonnull MultiTileEntityRegistry reg, long id, @Nonnull Class<? extends MultiTileEntity> clazz) {
+    public MultiTileContainer(@Nonnull MultiTileEntityRegistry reg, int id, @Nonnull Class<? extends MultiTileEntity> clazz) {
         this.reg = new WeakReference<>(reg);
         this.clazz = clazz;
         this.id = id;
@@ -64,6 +66,7 @@ public class MultiTileContainer {
         Entity newEntity = MuTECore.ENGINE.createEntityAs(originalEntity);
         newEntity.removeType(FakeEntity.class);
         if (baseTexture != null) newEntity.add(new BaseTexture(baseTexture.getIcon()));
+        newEntity.add(new Id(id));
         return newEntity;
     }
 
@@ -83,10 +86,7 @@ public class MultiTileContainer {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + (int) (id ^ (id >>> 32));
-        return result;
+        return id;
     }
 
     @Override
@@ -103,6 +103,36 @@ public class MultiTileContainer {
     }
 
 
-    private static class FakeEntity {
+    public static class FakeEntity {
+    }
+
+    public static class Id implements WorldStateValidator {
+
+        private int id;
+
+        public Id(int id) {
+            this.id = id;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        @Override
+        public void save(NBTTagCompound nbt) {
+            NBTTagCompound idNBT = new NBTTagCompound();
+            idNBT.setInteger("i", id);
+            nbt.setTag("idData", idNBT);
+        }
+
+        @Override
+        public void load(NBTTagCompound nbt) {
+            NBTTagCompound idNBT = nbt.getCompoundTag("idData");
+            id = idNBT.getInteger("i");
+        }
     }
 }

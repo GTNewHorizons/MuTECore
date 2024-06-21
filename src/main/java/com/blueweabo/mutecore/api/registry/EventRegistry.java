@@ -13,7 +13,8 @@ public class EventRegistry {
     public static final @Internal @Nonnull List<PlayerInteractionEvent> PLAYER_INTERACTION_EVENTS = new ArrayList<>();
 
     /**
-     * Register a player interaction event. After beign registered it will be put where it should be depending on its priority.
+     * Register a player interaction event. This is not the processing of the event,
+     * but a way to delegate it to said processing
      */
     public static void registerPlayerInteractionEvent(@Nonnull PlayerInteractionEvent event) {
         PLAYER_INTERACTION_EVENTS.add(event);

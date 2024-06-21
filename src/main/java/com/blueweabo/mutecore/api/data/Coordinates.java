@@ -1,6 +1,8 @@
 package com.blueweabo.mutecore.api.data;
 
-public class Coordinates {
+import net.minecraft.nbt.NBTTagCompound;
+
+public class Coordinates implements WorldStateValidator {
 
     private int x;
     private int y;
@@ -34,5 +36,22 @@ public class Coordinates {
 
     public void setZ(int z) {
         this.z = z;
+    }
+
+    @Override
+    public void save(NBTTagCompound nbt) {
+        NBTTagCompound coordinatesNBT = new NBTTagCompound();
+        coordinatesNBT.setInteger("x", x);
+        coordinatesNBT.setInteger("y", y);
+        coordinatesNBT.setInteger("z", z);
+        nbt.setTag("coordinates", coordinatesNBT);
+    }
+
+    @Override
+    public void load(NBTTagCompound nbt) {
+        NBTTagCompound coordinatesNBT = nbt.getCompoundTag("coordinates");
+        x = coordinatesNBT.getInteger("x");
+        y = coordinatesNBT.getInteger("y");
+        z = coordinatesNBT.getInteger("z");
     }
 }

@@ -1,17 +1,24 @@
 package com.blueweabo.mutecore;
 
+import net.minecraft.nbt.NBTTagCompound;
+
 import com.blueweabo.mutecore.api.data.Coordinates;
 import com.blueweabo.mutecore.api.data.GUIEvent;
+import com.blueweabo.mutecore.api.data.WorldStateValidator;
+import com.blueweabo.mutecore.api.gui.MultiTileEntityGuiFactory;
 import com.blueweabo.mutecore.api.registry.EventRegistry;
 import com.blueweabo.mutecore.api.registry.PlayerInteractionEvent;
+import com.blueweabo.mutecore.api.registry.MultiTileContainer.Id;
 import com.blueweabo.mutecore.api.utils.PlayerHelper;
 import com.cleanroommc.modularui.factory.TileEntityGuiFactory;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import dev.dominion.ecs.api.Composition;
 import dev.dominion.ecs.api.Entity;
 import dev.dominion.ecs.api.Results;
 import dev.dominion.ecs.api.Scheduler;
+import dev.dominion.ecs.engine.IntEntity;
 
 public class SystemRegistrator {
 
@@ -43,7 +50,16 @@ public class SystemRegistrator {
                 Entity entity = result.entity();
                 GUIEvent event = entity.get(GUIEvent.class);
                 Coordinates coords = entity.get(Coordinates.class);
-                TileEntityGuiFactory.open(event.getPlayer(), coords.getX(), coords.getY(), coords.getZ());
+                Id id = entity.get(Id.class);
+                NBTTagCompound nbt = new NBTTagCompound();
+                nbt.setInteger("entityId", id.getId());
+                Object[] components = ((IntEntity) entity).getComponentArray();
+                for (Object component : components) {
+                    if (component instanceof WorldStateValidator validator) {
+                        validator.save(nbt);
+                    }
+                }
+                MultiTileEntityGuiFactory.open(event.getPlayer(), coords.getX(), coords.getY(), coords.getZ(), nbt);
                 entity.removeType(GUIEvent.class);
             }
         });

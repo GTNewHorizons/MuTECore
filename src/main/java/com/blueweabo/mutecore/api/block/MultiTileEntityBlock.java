@@ -20,6 +20,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import com.blueweabo.mutecore.MuTECore;
 import com.blueweabo.mutecore.api.data.Coordinates;
 import com.blueweabo.mutecore.api.registry.EventRegistry;
 import com.blueweabo.mutecore.api.registry.MultiTileEntityRegistry;
@@ -36,12 +37,19 @@ public class MultiTileEntityBlock extends BlockContainer {
     }
 
     @Override
+    public TileEntity createTileEntity(World world, int metadata) {
+        return registry.createNewTileEntity(metadata);
+    }
+
+    @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
         return registry.createNewTileEntity(meta);
     }
 
     @Override
-    public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {}
+    public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+        list.addAll(registry.getAllItemStacks());
+    }
 
     @Override
     public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) {
@@ -73,6 +81,7 @@ public class MultiTileEntityBlock extends BlockContainer {
             if (eventComponent != null) break;
         }
         if (eventComponent == null) return false;
+        if (mute.getEntity().has(eventComponent.getClass())) return false;
         mute.getEntity().add(eventComponent);
         return true;
     }
@@ -80,6 +89,8 @@ public class MultiTileEntityBlock extends BlockContainer {
     @Override
     public void breakBlock(World worldIn, int x, int y, int z, Block blockBroken, int meta) {
         TileEntity te = worldIn.getTileEntity(x, y, z);
+        if (!(te instanceof MultiTileEntity mute)) return;
+        MuTECore.ENGINE.deleteEntity(mute.getEntity());
         super.breakBlock(worldIn, x, y, z, blockBroken, meta);
     }
 
@@ -94,6 +105,10 @@ public class MultiTileEntityBlock extends BlockContainer {
     @Override
     public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
         return super.getDrops(world, x, y, z, metadata, fortune);
+    }
+
+    public MultiTileEntityRegistry getRegistry() {
+        return registry;
     }
 
     @Internal
