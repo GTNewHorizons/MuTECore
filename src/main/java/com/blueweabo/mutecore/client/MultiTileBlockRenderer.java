@@ -2,11 +2,9 @@ package com.blueweabo.mutecore.client;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.common.util.ForgeDirection;
 
 import com.blueweabo.mutecore.api.block.MultiTileEntityBlock;
 import com.blueweabo.mutecore.api.data.BaseTexture;
@@ -30,7 +28,6 @@ public class MultiTileBlockRenderer implements ISimpleBlockRenderingHandler {
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
 
-
     }
 
     @Override
@@ -52,7 +49,6 @@ public class MultiTileBlockRenderer implements ISimpleBlockRenderingHandler {
             renderer.renderFaceZNeg(block, x, y, z, icon);
             renderer.renderFaceZPos(block, x, y, z, icon);
         }
-
 
         return true;
     }

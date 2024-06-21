@@ -3,24 +3,25 @@ package com.blueweabo.mutecore.api.block;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jetbrains.annotations.ApiStatus.Internal;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.common.util.ForgeDirection;
+
+import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.blueweabo.mutecore.MuTECore;
+import com.blueweabo.mutecore.MuTENetwork;
+import com.blueweabo.mutecore.MuTENetwork.MuTEPacket;
 import com.blueweabo.mutecore.api.data.Coordinates;
 import com.blueweabo.mutecore.api.registry.EventRegistry;
 import com.blueweabo.mutecore.api.registry.MultiTileEntityRegistry;
@@ -73,6 +74,13 @@ public class MultiTileEntityBlock extends BlockContainer {
     public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX,
         float subY, float subZ) {
         TileEntity te = worldIn.getTileEntity(x, y, z);
+        if (player instanceof EntityPlayerMP playermp) {
+            MuTEPacket packet = new MuTEPacket();
+            NBTTagCompound nbt = new NBTTagCompound();
+            te.writeToNBT(nbt);
+            packet.setComponentData(nbt);
+            MuTENetwork.sendToPlayer(packet, playermp);
+        }
         if (!(te instanceof MultiTileEntity mute)) return false;
         Object eventComponent = null;
 
@@ -81,8 +89,10 @@ public class MultiTileEntityBlock extends BlockContainer {
             if (eventComponent != null) break;
         }
         if (eventComponent == null) return false;
-        if (mute.getEntity().has(eventComponent.getClass())) return false;
-        mute.getEntity().add(eventComponent);
+        if (mute.getEntity()
+            .has(eventComponent.getClass())) return false;
+        mute.getEntity()
+            .add(eventComponent);
         return true;
     }
 
@@ -99,7 +109,8 @@ public class MultiTileEntityBlock extends BlockContainer {
         super.onBlockAdded(worldIn, x, y, z);
         TileEntity te = worldIn.getTileEntity(x, y, z);
         if (!(te instanceof MultiTileEntity mute)) return;
-        mute.getEntity().add(new Coordinates(x, y, z));
+        mute.getEntity()
+            .add(new Coordinates(x, y, z));
     }
 
     @Override

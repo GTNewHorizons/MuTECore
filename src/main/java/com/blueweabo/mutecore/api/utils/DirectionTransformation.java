@@ -1,13 +1,13 @@
 package com.blueweabo.mutecore.api.utils;
 
-import com.blueweabo.mutecore.api.enums.TexturePosition;
-
 import net.minecraftforge.common.util.ForgeDirection;
+
+import com.blueweabo.mutecore.api.enums.TexturePosition;
 
 public class DirectionTransformation {
 
     public static ForgeDirection transformDirection(ForgeDirection direction, TexturePosition position) {
-        return switch(position) {
+        return switch (position) {
             case BACK -> direction.getOpposite();
             case FRONT -> direction;
             case BOTTOM -> direction.getRotation(ForgeDirection.NORTH);

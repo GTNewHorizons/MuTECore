@@ -1,30 +1,7 @@
 package com.blueweabo.mutecore;
 
 import java.io.IOException;
-import java.util.List;
 
-import org.jetbrains.annotations.Nullable;
-
-import com.blueweabo.mutecore.api.block.MultiTileEntityBlock;
-import com.blueweabo.mutecore.api.data.Coordinates;
-import com.blueweabo.mutecore.api.data.WorldStateValidator;
-import com.blueweabo.mutecore.api.gui.ComponentData;
-import com.blueweabo.mutecore.api.registry.MultiTileContainer;
-import com.blueweabo.mutecore.api.registry.MultiTileEntityRegistry;
-import com.blueweabo.mutecore.api.tile.MultiTileEntity;
-import com.cleanroommc.modularui.factory.GuiManager;
-import com.cleanroommc.modularui.network.IPacket;
-import com.cleanroommc.modularui.network.NetworkHandler;
-
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.network.internal.FMLProxyPacket;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import cpw.mods.fml.relauncher.Side;
-import dev.dominion.ecs.api.Entity;
-import dev.dominion.ecs.engine.IntEntity;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.MessageToMessageCodec;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetHandlerPlayClient;
@@ -37,6 +14,23 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
+
+import org.jetbrains.annotations.Nullable;
+
+import com.blueweabo.mutecore.api.block.MultiTileEntityBlock;
+import com.blueweabo.mutecore.api.data.Coordinates;
+import com.blueweabo.mutecore.api.data.WorldStateValidator;
+import com.blueweabo.mutecore.api.registry.MultiTileContainer;
+import com.blueweabo.mutecore.api.registry.MultiTileEntityRegistry;
+import com.blueweabo.mutecore.api.tile.MultiTileEntity;
+import com.cleanroommc.modularui.network.IPacket;
+
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import cpw.mods.fml.relauncher.Side;
+import dev.dominion.ecs.api.Entity;
+import dev.dominion.ecs.engine.IntEntity;
 
 public class MuTENetwork {
 
@@ -75,8 +69,8 @@ public class MuTENetwork {
                 }
                 Chunk tChunk = world.getChunkFromBlockCoords(x, z);
                 if (player.getServerForPlayer()
-                .getPlayerManager()
-                .isPlayerWatchingChunk(player, tChunk.xPosition, tChunk.zPosition)) {
+                    .getPlayerManager()
+                    .isPlayerWatchingChunk(player, tChunk.xPosition, tChunk.zPosition)) {
                     sendToPlayer(packet, player);
                 }
             }
@@ -113,16 +107,19 @@ public class MuTENetwork {
 
         @Override
         public @Nullable IPacket executeClient(NetHandlerPlayClient handler) {
-            Coordinates coords = new Coordinates(0,0,0);
+            Coordinates coords = new Coordinates(0, 0, 0);
             coords.load(data);
             IBlockAccess world = Minecraft.getMinecraft().theWorld;
-            Block bl =  world .getBlock(coords.getX(), coords.getY(), coords.getZ());
+            Block bl = world.getBlock(coords.getX(), coords.getY(), coords.getZ());
             if (!(bl instanceof MultiTileEntityBlock mbl)) return null;
             TileEntity te = world.getTileEntity(coords.getX(), coords.getY(), coords.getZ());
             if (!(te instanceof MultiTileEntity mute)) return null;
             MultiTileEntityRegistry registry = mbl.getRegistry();
-            MultiTileContainer container = registry.getMultiTileContainer(data.getCompoundTag("idData").getInteger("i"));
+            MultiTileContainer container = registry.getMultiTileContainer(
+                data.getCompoundTag("idData")
+                    .getInteger("i"));
             Entity entity = container.createNewEntity();
+            entity.add(coords);
             Object[] components = ((IntEntity) entity).getComponentArray();
             for (int i = 0; i < components.length; i++) {
                 if (!(components[i] instanceof WorldStateValidator validator)) continue;

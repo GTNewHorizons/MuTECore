@@ -3,13 +3,14 @@ package com.blueweabo.mutecore.api.registry;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraftforge.client.event.TextureStitchEvent;
+
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.blueweabo.mutecore.MuTECore;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraftforge.client.event.TextureStitchEvent;
 
 @Internal
 public class TextureRegistry {

@@ -5,17 +5,17 @@ import java.util.Objects;
 
 import javax.annotation.Nonnull;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.PacketBuffer;
+
 import org.jetbrains.annotations.NotNull;
 
 import com.blueweabo.mutecore.MuTECore;
 import com.cleanroommc.modularui.api.IGuiHolder;
 import com.cleanroommc.modularui.factory.AbstractUIFactory;
 import com.cleanroommc.modularui.factory.GuiManager;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.PacketBuffer;
 
 public class MultiTileEntityGuiFactory extends AbstractUIFactory<ComponentData> {
 
@@ -65,6 +65,5 @@ public class MultiTileEntityGuiFactory extends AbstractUIFactory<ComponentData> 
     public @NotNull IGuiHolder<ComponentData> getGuiHolder(ComponentData data) {
         return Objects.requireNonNull(castGuiHolder(data.getTileEntity()));
     }
-
 
 }

@@ -5,14 +5,15 @@ import java.lang.ref.WeakReference;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
+
 import com.blueweabo.mutecore.MuTECore;
 import com.blueweabo.mutecore.api.data.BaseTexture;
 import com.blueweabo.mutecore.api.data.WorldStateValidator;
 import com.blueweabo.mutecore.api.tile.MultiTileEntity;
 
 import dev.dominion.ecs.api.Entity;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
 
 public class MultiTileContainer {
 
@@ -23,7 +24,8 @@ public class MultiTileContainer {
     private @Nonnull IconContainer baseTexture;
     private @Nonnull IconContainer[][] overlayTextures = new IconContainer[6][];
 
-    public MultiTileContainer(@Nonnull MultiTileEntityRegistry reg, int id, @Nonnull Class<? extends MultiTileEntity> clazz) {
+    public MultiTileContainer(@Nonnull MultiTileEntityRegistry reg, int id,
+        @Nonnull Class<? extends MultiTileEntity> clazz) {
         this.reg = new WeakReference<>(reg);
         this.clazz = clazz;
         this.id = id;
@@ -52,7 +54,7 @@ public class MultiTileContainer {
      * They are automatically registered.
      */
     public @Nonnull MultiTileContainer texturePath(@Nonnull String modid, @Nonnull String path) {
-        baseTexture = new IconContainer(new ResourceLocation(modid, path+"/base").toString());
+        baseTexture = new IconContainer(new ResourceLocation(modid, path + "/base").toString());
         return this;
     }
 
@@ -66,7 +68,11 @@ public class MultiTileContainer {
         Entity newEntity = MuTECore.ENGINE.createEntityAs(originalEntity);
         newEntity.removeType(FakeEntity.class);
         if (baseTexture != null) newEntity.add(new BaseTexture(baseTexture.getIcon()));
-        newEntity.add(new Id(id));
+        newEntity.add(
+            new Id(
+                id,
+                reg.get()
+                    .getBlockId()));
         return newEntity;
     }
 
@@ -91,17 +97,12 @@ public class MultiTileContainer {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (!(obj instanceof MultiTileContainer other))
-            return false;
-        if (id != other.id)
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (!(obj instanceof MultiTileContainer other)) return false;
+        if (id != other.id) return false;
         return true;
     }
-
 
     public static class FakeEntity {
     }
@@ -109,9 +110,11 @@ public class MultiTileContainer {
     public static class Id implements WorldStateValidator {
 
         private int id;
+        private int regId;
 
-        public Id(int id) {
+        public Id(int id, int regId) {
             this.id = id;
+            this.regId = regId;
         }
 
         public int getId() {
@@ -122,10 +125,19 @@ public class MultiTileContainer {
             this.id = id;
         }
 
+        public int getRegId() {
+            return regId;
+        }
+
+        public void setRegId(int regId) {
+            this.regId = regId;
+        }
+
         @Override
         public void save(NBTTagCompound nbt) {
             NBTTagCompound idNBT = new NBTTagCompound();
             idNBT.setInteger("i", id);
+            idNBT.setInteger("r", regId);
             nbt.setTag("idData", idNBT);
         }
 
@@ -133,6 +145,7 @@ public class MultiTileContainer {
         public void load(NBTTagCompound nbt) {
             NBTTagCompound idNBT = nbt.getCompoundTag("idData");
             id = idNBT.getInteger("i");
+            regId = idNBT.getInteger("r");
         }
     }
 }

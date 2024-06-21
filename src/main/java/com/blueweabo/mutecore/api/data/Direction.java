@@ -28,6 +28,8 @@ public class Direction implements WorldStateValidator {
 
     @Override
     public void load(NBTTagCompound nbt) {
-        direction = ForgeDirection.getOrientation(nbt.getCompoundTag("direction").getInteger("i"));
+        direction = ForgeDirection.getOrientation(
+            nbt.getCompoundTag("direction")
+                .getInteger("i"));
     }
 }

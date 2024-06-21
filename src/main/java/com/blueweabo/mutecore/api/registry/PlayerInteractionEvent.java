@@ -2,8 +2,9 @@ package com.blueweabo.mutecore.api.registry;
 
 import javax.annotation.Nonnull;
 
-import dev.dominion.ecs.api.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+
+import dev.dominion.ecs.api.Entity;
 
 public class PlayerInteractionEvent implements Comparable<PlayerInteractionEvent> {
 
@@ -21,7 +22,9 @@ public class PlayerInteractionEvent implements Comparable<PlayerInteractionEvent
 
     @FunctionalInterface
     public static interface PlayerInteraction {
-        @Nonnull Object generateComponent(@Nonnull EntityPlayer player, @Nonnull Entity entity);
+
+        @Nonnull
+        Object generateComponent(@Nonnull EntityPlayer player, @Nonnull Entity entity);
     }
 
     @Override

@@ -2,9 +2,7 @@ package com.blueweabo.mutecore.test;
 
 import net.minecraft.block.material.Material;
 
-import com.blueweabo.mutecore.MuTECore;
 import com.blueweabo.mutecore.api.block.MultiTileEntityBlock;
-import com.blueweabo.mutecore.api.data.BaseTexture;
 import com.blueweabo.mutecore.api.item.MultiTileEntityItem;
 import com.blueweabo.mutecore.api.registry.MultiTileEntityRegistry;
 import com.blueweabo.mutecore.api.tile.MultiTileEntity;
@@ -20,10 +18,13 @@ public class TestRegistry implements Runnable {
         BLOCK = new MultiTileEntityBlock(Material.anvil);
         GameRegistry.registerBlock(BLOCK, MultiTileEntityItem.class, "mutecore.testtiles");
         REGISTRY = new MultiTileEntityRegistry(BLOCK);
+        MultiTileEntityRegistry.registerRegistry(BLOCK, REGISTRY);
     }
 
     @Override
     public void run() {
-        REGISTRY.create(0, MultiTileEntity.class).texturePath("test").register();
+        REGISTRY.create(0, MultiTileEntity.class)
+            .texturePath("test")
+            .register();
     }
 }

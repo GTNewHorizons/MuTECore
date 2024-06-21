@@ -1,9 +1,9 @@
 package com.blueweabo.mutecore.api.registry;
 
-import org.jetbrains.annotations.ApiStatus.Internal;
-
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
+
+import org.jetbrains.annotations.ApiStatus.Internal;
 
 @Internal
 public class IconContainer {

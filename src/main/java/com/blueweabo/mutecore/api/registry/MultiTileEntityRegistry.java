@@ -1,11 +1,14 @@
 package com.blueweabo.mutecore.api.registry;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.blueweabo.mutecore.MuTECore;
 import com.blueweabo.mutecore.api.block.MultiTileEntityBlock;
@@ -18,8 +21,20 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 
 public class MultiTileEntityRegistry {
 
+    private static final Long2ObjectMap<MultiTileEntityRegistry> REGISTRY_MAP = new Long2ObjectOpenHashMap<>();
+
     private final MultiTileEntityBlock block;
     private final Long2ObjectMap<MultiTileContainer> map = new Long2ObjectOpenHashMap<>();
+
+    public static void registerRegistry(MultiTileEntityBlock block, MultiTileEntityRegistry registry) {
+        int id = Block.getIdFromBlock(block);
+        REGISTRY_MAP.put(id, registry);
+    }
+
+    @Internal
+    public static MultiTileEntityRegistry getRegistry(int id) {
+        return REGISTRY_MAP.get(id);
+    }
 
     public MultiTileEntityRegistry(MultiTileEntityBlock block) {
         this.block = block;
@@ -30,6 +45,7 @@ public class MultiTileEntityRegistry {
         return new MultiTileContainer(this, id, clazz);
     }
 
+    @Internal
     public boolean register(long id, MultiTileContainer container) {
         if (map.containsKey(id)) {
             MuTECore.LOG.error(
@@ -57,7 +73,7 @@ public class MultiTileEntityRegistry {
 
     public List<ItemStack> getAllItemStacks() {
         List<ItemStack> list = new ArrayList<>();
-        map.forEach((id, fake) -> {list.add(getItemStack(Ints.saturatedCast(id)));});
+        map.forEach((id, fake) -> { list.add(getItemStack(Ints.saturatedCast(id))); });
         return list;
     }
 
@@ -71,5 +87,10 @@ public class MultiTileEntityRegistry {
 
     public ItemStackLong getItemStackLong(int id, long stackSize) {
         return new ItemStackLong(Item.getItemFromBlock(block), 64, id, stackSize);
+    }
+
+    @Internal
+    public int getBlockId() {
+        return Block.getIdFromBlock(block);
     }
 }

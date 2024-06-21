@@ -1,11 +1,9 @@
 package com.blueweabo.mutecore.api.gui;
 
-import java.io.Serializable;
-
-import com.cleanroommc.modularui.factory.PosGuiData;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+
+import com.cleanroommc.modularui.factory.PosGuiData;
 
 public class ComponentData extends PosGuiData {
 
