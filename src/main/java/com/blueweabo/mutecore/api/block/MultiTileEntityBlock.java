@@ -24,9 +24,9 @@ import com.blueweabo.mutecore.MuTENetwork;
 import com.blueweabo.mutecore.MuTENetwork.MuTEPacket;
 import com.blueweabo.mutecore.api.data.Coordinates;
 import com.blueweabo.mutecore.api.registry.EventRegistry;
+import com.blueweabo.mutecore.api.registry.MultiTileContainer.Id;
 import com.blueweabo.mutecore.api.registry.MultiTileEntityRegistry;
 import com.blueweabo.mutecore.api.registry.PlayerInteractionEvent;
-import com.blueweabo.mutecore.api.registry.MultiTileContainer.Id;
 import com.blueweabo.mutecore.api.tile.MultiTileEntity;
 import com.blueweabo.mutecore.client.MultiTileBlockRenderer;
 
@@ -52,8 +52,10 @@ public class MultiTileEntityBlock extends BlockContainer {
 
     @Override
     public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) {
-        Entity entity = ((MultiTileEntity) world.getTileEntity(x,y,z)).getEntity();
-        return registry.getItemStack(entity.get(Id.class).getId());
+        Entity entity = ((MultiTileEntity) world.getTileEntity(x, y, z)).getEntity();
+        return registry.getItemStack(
+            entity.get(Id.class)
+                .getId());
     }
 
     @Override

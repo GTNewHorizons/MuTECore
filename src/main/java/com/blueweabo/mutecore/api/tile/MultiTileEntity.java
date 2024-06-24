@@ -15,8 +15,8 @@ import com.blueweabo.mutecore.api.data.WorldContainer;
 import com.blueweabo.mutecore.api.data.WorldStateValidator;
 import com.blueweabo.mutecore.api.gui.ComponentData;
 import com.blueweabo.mutecore.api.registry.MultiTileContainer;
-import com.blueweabo.mutecore.api.registry.MultiTileEntityRegistry;
 import com.blueweabo.mutecore.api.registry.MultiTileContainer.Id;
+import com.blueweabo.mutecore.api.registry.MultiTileEntityRegistry;
 import com.cleanroommc.modularui.api.IGuiHolder;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.value.sync.GuiSyncManager;
@@ -59,8 +59,11 @@ public class MultiTileEntity extends TileEntity implements IGuiHolder<ComponentD
 
     @Override
     public ModularPanel buildUI(ComponentData data, GuiSyncManager syncManager) {
-        MultiTileEntityRegistry reg = ((MultiTileEntityBlock) data.getWorld().getBlock(xCoord, yCoord, zCoord)).getRegistry();
-        MultiTileContainer container = reg.getMultiTileContainer(entity.get(Id.class).getId());
+        MultiTileEntityRegistry reg = ((MultiTileEntityBlock) data.getWorld()
+            .getBlock(xCoord, yCoord, zCoord)).getRegistry();
+        MultiTileContainer container = reg.getMultiTileContainer(
+            entity.get(Id.class)
+                .getId());
         if (entity == null) {
             entity = container.createNewEntity();
         }
@@ -70,7 +73,8 @@ public class MultiTileEntity extends TileEntity implements IGuiHolder<ComponentD
                 validator.load(data.getComponentData());
             }
         }
-        return container.getGUI().createGUI(entity, syncManager);
+        return container.getGUI()
+            .createGUI(entity, syncManager);
     }
 
     @Override

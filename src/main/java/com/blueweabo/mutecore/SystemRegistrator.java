@@ -1,25 +1,8 @@
 package com.blueweabo.mutecore;
 
-import net.minecraft.nbt.NBTTagCompound;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import com.blueweabo.mutecore.api.data.Coordinates;
-import com.blueweabo.mutecore.api.data.GUIEvent;
-import com.blueweabo.mutecore.api.data.WorldStateValidator;
-import com.blueweabo.mutecore.api.gui.MultiTileEntityGuiFactory;
-import com.blueweabo.mutecore.api.registry.EventRegistry;
-import com.blueweabo.mutecore.api.registry.MultiTileContainer.Id;
-import com.blueweabo.mutecore.api.registry.PlayerInteractionEvent;
-import com.blueweabo.mutecore.api.utils.PlayerHelper;
-
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
-import dev.dominion.ecs.api.Entity;
-import dev.dominion.ecs.api.Results;
 import dev.dominion.ecs.api.Scheduler;
-import dev.dominion.ecs.engine.IntEntity;
 
 public class SystemRegistrator {
 
@@ -42,7 +25,7 @@ public class SystemRegistrator {
     }
 
     /**
-     *  Register any amount of systems. The systems registered this way will be ran in parallel
+     * Register any amount of systems. The systems registered this way will be ran in parallel
      */
     public static void registerSystemsParallel(Runnable... systems) {
         SYSTEMS.parallelSchedule(systems);

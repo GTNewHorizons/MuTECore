@@ -7,7 +7,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
 
@@ -34,7 +33,9 @@ public class MultiTileEntityItem extends ItemBlock implements IFluidContainerIte
 
     @Override
     public String getUnlocalizedName(ItemStack stack) {
-        return block.getRegistry().getMultiTileContainer(Items.feather.getDamage(stack)).getUnlocalizedName();
+        return block.getRegistry()
+            .getMultiTileContainer(Items.feather.getDamage(stack))
+            .getUnlocalizedName();
     }
 
     @Override

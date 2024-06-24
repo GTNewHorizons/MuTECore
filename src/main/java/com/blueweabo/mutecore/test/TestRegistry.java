@@ -26,16 +26,12 @@ public class TestRegistry implements Runnable {
     public void run() {
         REGISTRY.create(0, MultiTileEntity.class)
             .texturePath("test")
-            .gui((entity, syncManager) -> {
-                return new ModularPanel("testOne");
-            })
+            .gui((entity, syncManager) -> { return new ModularPanel("testOne"); })
             .unlocalizedName("testblockone")
             .register();
         REGISTRY.create(1, MultiTileEntity.class)
             .texturePath("test")
-            .gui((entity, syncManager) -> {
-                return new ModularPanel("testTwo");
-            })
+            .gui((entity, syncManager) -> { return new ModularPanel("testTwo"); })
             .unlocalizedName("testblocktwo")
             .register();
     }
