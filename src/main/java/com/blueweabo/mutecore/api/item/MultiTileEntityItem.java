@@ -4,8 +4,10 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
 
@@ -17,6 +19,8 @@ public class MultiTileEntityItem extends ItemBlock implements IFluidContainerIte
 
     public MultiTileEntityItem(Block block) {
         super(block);
+        setHasSubtypes(true);
+        setMaxDamage(0);
         if (!(block instanceof MultiTileEntityBlock muteBlock)) {
             throw new IllegalArgumentException("The block should extend MultiTileEntityBlock or be a variation of it");
         }
@@ -30,7 +34,12 @@ public class MultiTileEntityItem extends ItemBlock implements IFluidContainerIte
 
     @Override
     public String getUnlocalizedName(ItemStack stack) {
-        return super.getUnlocalizedName(stack);
+        return block.getRegistry().getMultiTileContainer(Items.feather.getDamage(stack)).getUnlocalizedName();
+    }
+
+    @Override
+    public int getMetadata(int meta) {
+        return meta;
     }
 
     @Override
@@ -40,19 +49,16 @@ public class MultiTileEntityItem extends ItemBlock implements IFluidContainerIte
 
     @Override
     public int getCapacity(ItemStack container) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCapacity'");
+        return 0;
     }
 
     @Override
     public int fill(ItemStack container, FluidStack resource, boolean doFill) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'fill'");
+        return 0;
     }
 
     @Override
     public FluidStack drain(ItemStack container, int maxDrain, boolean doDrain) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'drain'");
+        return null;
     }
 }

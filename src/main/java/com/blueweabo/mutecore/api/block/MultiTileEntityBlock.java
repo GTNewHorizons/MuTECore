@@ -26,8 +26,11 @@ import com.blueweabo.mutecore.api.data.Coordinates;
 import com.blueweabo.mutecore.api.registry.EventRegistry;
 import com.blueweabo.mutecore.api.registry.MultiTileEntityRegistry;
 import com.blueweabo.mutecore.api.registry.PlayerInteractionEvent;
+import com.blueweabo.mutecore.api.registry.MultiTileContainer.Id;
 import com.blueweabo.mutecore.api.tile.MultiTileEntity;
 import com.blueweabo.mutecore.client.MultiTileBlockRenderer;
+
+import dev.dominion.ecs.api.Entity;
 
 public class MultiTileEntityBlock extends BlockContainer {
 
@@ -35,11 +38,6 @@ public class MultiTileEntityBlock extends BlockContainer {
 
     public MultiTileEntityBlock(Material material) {
         super(material);
-    }
-
-    @Override
-    public TileEntity createTileEntity(World world, int metadata) {
-        return registry.createNewTileEntity(metadata);
     }
 
     @Override
@@ -54,7 +52,8 @@ public class MultiTileEntityBlock extends BlockContainer {
 
     @Override
     public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) {
-        return super.getPickBlock(target, world, x, y, z, player);
+        Entity entity = ((MultiTileEntity) world.getTileEntity(x,y,z)).getEntity();
+        return registry.getItemStack(entity.get(Id.class).getId());
     }
 
     @Override

@@ -26,7 +26,6 @@ public class SystemRegistrator {
      * Registers a processing system, which run in parallel with all other processing systems.
      */
     public static void registerProcessingSystem() {
-        SYSTEMS.schedule(() -> {});
     }
 
     /**

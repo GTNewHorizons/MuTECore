@@ -10,7 +10,10 @@ import net.minecraft.util.ResourceLocation;
 
 import com.blueweabo.mutecore.MuTECore;
 import com.blueweabo.mutecore.api.data.BaseTexture;
+import com.blueweabo.mutecore.api.data.FirstTickEvent;
+import com.blueweabo.mutecore.api.data.TickData;
 import com.blueweabo.mutecore.api.data.WorldStateValidator;
+import com.blueweabo.mutecore.api.gui.MuTEGUI;
 import com.blueweabo.mutecore.api.tile.MultiTileEntity;
 
 import dev.dominion.ecs.api.Entity;
@@ -23,6 +26,8 @@ public class MultiTileContainer {
     private final @Nonnull Entity originalEntity;
     private @Nonnull IconContainer baseTexture;
     private @Nonnull IconContainer[][] overlayTextures = new IconContainer[6][];
+    private @Nonnull MuTEGUI gui;
+    private String unlocalizedName;
 
     public MultiTileContainer(@Nonnull MultiTileEntityRegistry reg, int id,
         @Nonnull Class<? extends MultiTileEntity> clazz) {
@@ -58,7 +63,18 @@ public class MultiTileContainer {
         return this;
     }
 
+    public @Nonnull MultiTileContainer gui(@Nonnull MuTEGUI gui) {
+        this.gui = gui;
+        return this;
+    }
+
+    public @Nonnull MultiTileContainer unlocalizedName(String unlocalizedName) {
+        this.unlocalizedName = unlocalizedName;
+        return this;
+    }
+
     public boolean register() {
+        if (gui == null) throw new IllegalStateException("No gui was registered for entity with id: " + id);
         if (baseTexture != null) TextureRegistry.addBlockIconToRegister(baseTexture);
         return reg.get() != null && reg.get()
             .register(id, this);
@@ -73,6 +89,8 @@ public class MultiTileContainer {
                 id,
                 reg.get()
                     .getBlockId()));
+        newEntity.add(new TickData());
+        newEntity.add(new FirstTickEvent());
         return newEntity;
     }
 
@@ -88,6 +106,14 @@ public class MultiTileContainer {
 
     public @Nonnull Class<? extends MultiTileEntity> getTileEntityClass() {
         return clazz;
+    }
+
+    public @Nonnull MuTEGUI getGUI() {
+        return gui;
+    }
+
+    public String getUnlocalizedName() {
+        return unlocalizedName;
     }
 
     @Override

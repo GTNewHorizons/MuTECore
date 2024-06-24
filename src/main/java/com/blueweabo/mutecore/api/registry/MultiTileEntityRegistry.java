@@ -78,7 +78,7 @@ public class MultiTileEntityRegistry {
     }
 
     public ItemStack getItemStack(int id) {
-        return getItemStack(id, 0);
+        return getItemStack(id, 1);
     }
 
     public ItemStack getItemStack(int id, int stackSize) {
