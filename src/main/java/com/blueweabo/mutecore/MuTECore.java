@@ -1,13 +1,21 @@
 package com.blueweabo.mutecore;
 
 import net.minecraft.launchwrapper.Launch;
+import net.minecraft.nbt.NBTTagCompound;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.blueweabo.mutecore.api.data.Coordinates;
+import com.blueweabo.mutecore.api.data.GUIEvent;
+import com.blueweabo.mutecore.api.data.WorldStateValidator;
 import com.blueweabo.mutecore.api.gui.MultiTileEntityGuiFactory;
+import com.blueweabo.mutecore.api.registry.EventRegistry;
+import com.blueweabo.mutecore.api.registry.PlayerInteractionEvent;
 import com.blueweabo.mutecore.api.registry.MultiTileContainer.FakeEntity;
+import com.blueweabo.mutecore.api.registry.MultiTileContainer.Id;
 import com.blueweabo.mutecore.api.tile.MultiTileEntity;
+import com.blueweabo.mutecore.api.utils.PlayerHelper;
 import com.blueweabo.mutecore.test.TestRegistry;
 import com.cleanroommc.modularui.factory.GuiManager;
 
@@ -23,6 +31,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import dev.dominion.ecs.api.Dominion;
 import dev.dominion.ecs.api.Entity;
 import dev.dominion.ecs.api.Results;
+import dev.dominion.ecs.engine.IntEntity;
 
 @Mod(
     modid = MuTECore.MODID,
@@ -49,8 +58,6 @@ public class MuTECore {
         ENABLE_TESTS = (boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
         if (ENABLE_TESTS) {
             new TestRegistry().run();
-            SystemRegistrator.registerProcessingSystem();
-            SystemRegistrator.registerOtherSystem();
         }
         GameRegistry.registerTileEntity(MultiTileEntity.class, "multitileentity");
         GuiManager.registerFactory(MultiTileEntityGuiFactory.INSTANCE);
@@ -58,8 +65,27 @@ public class MuTECore {
     }
 
     @Mod.EventHandler
-    public void init(FMLInitializationEvent event) {
-        proxy.init(event);
+    public void init(FMLInitializationEvent initEvent) {
+        proxy.init(initEvent);
+        EventRegistry.registerPlayerInteractionEvent(
+            new PlayerInteractionEvent(0, (p, e) -> PlayerHelper.isRealPlayer(p) ? new GUIEvent(p) : null));
+        SystemRegistrator.registerSystem(() -> {
+            Results<Results.With1<GUIEvent>> results = MuTECore.ENGINE.findEntitiesWith(GUIEvent.class);
+            for (Results.With1<GUIEvent> result : results) {
+                Entity entity = result.entity();
+                GUIEvent event = entity.get(GUIEvent.class);
+                Coordinates coords = entity.get(Coordinates.class);
+                NBTTagCompound nbt = new NBTTagCompound();
+                Object[] components = ((IntEntity) entity).getComponentArray();
+                for (Object component : components) {
+                    if (component instanceof WorldStateValidator validator) {
+                        validator.save(nbt);
+                    }
+                }
+                MultiTileEntityGuiFactory.open(event.getPlayer(), coords.getX(), coords.getY(), coords.getZ(), nbt);
+                entity.removeType(GUIEvent.class);
+            }
+        });
     }
 
     @Mod.EventHandler
