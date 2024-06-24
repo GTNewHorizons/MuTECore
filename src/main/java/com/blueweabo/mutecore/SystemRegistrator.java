@@ -2,6 +2,9 @@ package com.blueweabo.mutecore;
 
 import net.minecraft.nbt.NBTTagCompound;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.blueweabo.mutecore.api.data.Coordinates;
 import com.blueweabo.mutecore.api.data.GUIEvent;
 import com.blueweabo.mutecore.api.data.WorldStateValidator;
@@ -23,44 +26,26 @@ public class SystemRegistrator {
     private static final Scheduler SYSTEMS = MuTECore.ENGINE.createScheduler();
 
     /**
-     * Registers a processing system, which run in parallel with all other processing systems.
+     * Register a single system. It will be ran after the last registered system
      */
-    public static void registerProcessingSystem() {
+    public static void registerSystem(Runnable system) {
+        SYSTEMS.schedule(system);
     }
 
     /**
-     * Registers a GUI system, which will run in parallel with all other GUI systems
+     * Register any amount of systems. The systems will be scheduled one after another.
      */
-    public static void registerGUISystem() {
-
+    public static void registerSystems(Runnable... systems) {
+        for (Runnable system : systems) {
+            SYSTEMS.schedule(system);
+        }
     }
 
     /**
-     * Registers a system, which will be running after processing systems have ran.
-     * Useful if one needs to generate their own system
+     *  Register any amount of systems. The systems registered this way will be ran in parallel
      */
-    public static void registerOtherSystem() {
-        EventRegistry.registerPlayerInteractionEvent(
-            new PlayerInteractionEvent(0, (p, e) -> PlayerHelper.isRealPlayer(p) ? new GUIEvent(p) : null));
-        SYSTEMS.schedule(() -> {
-            Results<Results.With1<GUIEvent>> results = MuTECore.ENGINE.findEntitiesWith(GUIEvent.class);
-            for (Results.With1<GUIEvent> result : results) {
-                Entity entity = result.entity();
-                GUIEvent event = entity.get(GUIEvent.class);
-                Coordinates coords = entity.get(Coordinates.class);
-                Id id = entity.get(Id.class);
-                NBTTagCompound nbt = new NBTTagCompound();
-                nbt.setInteger("entityId", id.getId());
-                Object[] components = ((IntEntity) entity).getComponentArray();
-                for (Object component : components) {
-                    if (component instanceof WorldStateValidator validator) {
-                        validator.save(nbt);
-                    }
-                }
-                MultiTileEntityGuiFactory.open(event.getPlayer(), coords.getX(), coords.getY(), coords.getZ(), nbt);
-                entity.removeType(GUIEvent.class);
-            }
-        });
+    public static void registerSystemsParallel(Runnable... systems) {
+        SYSTEMS.parallelSchedule(systems);
     }
 
     @SubscribeEvent
