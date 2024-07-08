@@ -7,7 +7,9 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 
 import com.blueweabo.mutecore.api.block.MultiTileEntityBlock;
-import com.blueweabo.mutecore.api.data.BaseTexture;
+import com.blueweabo.mutecore.api.registry.MultiTileContainer;
+import com.blueweabo.mutecore.api.registry.MultiTileEntityRegistry;
+import com.blueweabo.mutecore.api.registry.MultiTileContainer.Id;
 import com.blueweabo.mutecore.api.tile.MultiTileEntity;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
@@ -33,22 +35,15 @@ public class MultiTileBlockRenderer implements ISimpleBlockRenderingHandler {
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
-        if (!(block instanceof MultiTileEntityBlock)) return false;
+        if (!(block instanceof MultiTileEntityBlock mublock)) return false;
 
         TileEntity te = world.getTileEntity(x, y, z);
         if (!(te instanceof MultiTileEntity mute)) return false;
 
         Entity entity = mute.getEntity();
-        BaseTexture texture = entity.get(BaseTexture.class);
-        if (texture != null) {
-            IIcon icon = texture.getTexture();
-            renderer.renderFaceXNeg(block, x, y, z, icon);
-            renderer.renderFaceXPos(block, x, y, z, icon);
-            renderer.renderFaceYNeg(block, x, y, z, icon);
-            renderer.renderFaceYPos(block, x, y, z, icon);
-            renderer.renderFaceZNeg(block, x, y, z, icon);
-            renderer.renderFaceZPos(block, x, y, z, icon);
-        }
+        MultiTileEntityRegistry reg = mublock.getRegistry();
+        MultiTileContainer container = reg.getMultiTileContainer(entity.get(Id.class).getId());
+        container.getRender().render(entity, renderer, x, y, z, world);
 
         return true;
     }

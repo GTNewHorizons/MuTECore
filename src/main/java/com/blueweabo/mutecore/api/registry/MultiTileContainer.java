@@ -9,11 +9,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
 import com.blueweabo.mutecore.MuTECore;
-import com.blueweabo.mutecore.api.data.BaseTexture;
 import com.blueweabo.mutecore.api.data.FirstTickEvent;
 import com.blueweabo.mutecore.api.data.TickData;
 import com.blueweabo.mutecore.api.data.WorldStateValidator;
 import com.blueweabo.mutecore.api.gui.MuTEGUI;
+import com.blueweabo.mutecore.api.render.MuTERender;
 import com.blueweabo.mutecore.api.tile.MultiTileEntity;
 
 import dev.dominion.ecs.api.Entity;
@@ -24,9 +24,8 @@ public class MultiTileContainer {
     private final int id;
     private final @Nonnull WeakReference<MultiTileEntityRegistry> reg;
     private final @Nonnull Entity originalEntity;
-    private @Nonnull IconContainer baseTexture;
-    private @Nonnull IconContainer[][] overlayTextures = new IconContainer[6][];
     private @Nonnull MuTEGUI gui;
+    private @Nonnull MuTERender render;
     private String unlocalizedName;
 
     public MultiTileContainer(@Nonnull MultiTileEntityRegistry reg, int id,
@@ -44,25 +43,6 @@ public class MultiTileContainer {
         return this;
     }
 
-    /**
-     * Sets the texture path for the entity to use to get its textures from.
-     * Uses mutecore as the modid.
-     * They are automatically registered.
-     */
-    public @Nonnull MultiTileContainer texturePath(@Nonnull String path) {
-        return texturePath(MuTECore.MODID, path);
-    }
-
-    /**
-     * Sets the texture path for the entity to use to get its textures from.
-     * Uses the modid given from the function to register the icons
-     * They are automatically registered.
-     */
-    public @Nonnull MultiTileContainer texturePath(@Nonnull String modid, @Nonnull String path) {
-        baseTexture = new IconContainer(new ResourceLocation(modid, path + "/base").toString());
-        return this;
-    }
-
     public @Nonnull MultiTileContainer gui(@Nonnull MuTEGUI gui) {
         this.gui = gui;
         return this;
@@ -75,7 +55,6 @@ public class MultiTileContainer {
 
     public boolean register() {
         if (gui == null) throw new IllegalStateException("No gui was registered for entity with id: " + id);
-        if (baseTexture != null) TextureRegistry.addBlockIconToRegister(baseTexture);
         return reg.get() != null && reg.get()
             .register(id, this);
     }
@@ -83,7 +62,6 @@ public class MultiTileContainer {
     public @Nonnull Entity createNewEntity() {
         Entity newEntity = MuTECore.ENGINE.createEntityAs(originalEntity);
         newEntity.removeType(FakeEntity.class);
-        if (baseTexture != null) newEntity.add(new BaseTexture(baseTexture.getIcon()));
         newEntity.add(
             new Id(
                 id,
@@ -110,6 +88,10 @@ public class MultiTileContainer {
 
     public @Nonnull MuTEGUI getGUI() {
         return gui;
+    }
+
+    public @Nonnull MuTERender getRender() {
+        return render;
     }
 
     public String getUnlocalizedName() {
