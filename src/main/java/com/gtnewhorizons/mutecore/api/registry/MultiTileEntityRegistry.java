@@ -12,20 +12,26 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.gtnewhorizons.mutecore.MuTECore;
 import com.gtnewhorizons.mutecore.api.block.MultiTileEntityBlock;
+import com.gtnewhorizons.mutecore.api.render.MuTERender;
 import com.gtnewhorizons.mutecore.api.tile.MultiTileEntity;
+
 import com.cleanroommc.modularui.utils.item.ItemStackLong;
 import com.google.common.primitives.Ints;
 
-import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
-import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
 public class MultiTileEntityRegistry {
 
-    private static final Long2ObjectMap<MultiTileEntityRegistry> REGISTRY_MAP = new Long2ObjectOpenHashMap<>();
+    private static final Int2ObjectMap<MultiTileEntityRegistry> REGISTRY_MAP = new Int2ObjectOpenHashMap<>();
 
     private final MultiTileEntityBlock block;
-    private final Long2ObjectMap<MultiTileContainer> map = new Long2ObjectOpenHashMap<>();
+    private final Int2ObjectMap<MultiTileContainer> map = new Int2ObjectOpenHashMap<>();
+    private final Int2ObjectMap<MuTERender> renderMap = new Int2ObjectOpenHashMap<>();
 
+    /**
+     * Should only be called after the block has been registered
+     */
     public static void registerRegistry(MultiTileEntityBlock block, MultiTileEntityRegistry registry) {
         int id = Block.getIdFromBlock(block);
         REGISTRY_MAP.put(id, registry);
@@ -45,8 +51,16 @@ public class MultiTileEntityRegistry {
         return new MultiTileContainer(this, id, clazz);
     }
 
+    public void registerRender(int id, MuTERender render) {
+        renderMap.put(id, render);
+    }
+
+    public MuTERender getRender(int id) {
+        return renderMap.get(id);
+    }
+
     @Internal
-    public boolean register(long id, MultiTileContainer container) {
+    public boolean register(int id, MultiTileContainer container) {
         if (map.containsKey(id)) {
             MuTECore.LOG.error(
                 "There already exists a MultiTileEntity for id: " + id + " and block: " + block.getUnlocalizedName());

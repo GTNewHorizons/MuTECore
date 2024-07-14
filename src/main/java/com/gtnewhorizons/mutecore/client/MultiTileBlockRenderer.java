@@ -42,8 +42,7 @@ public class MultiTileBlockRenderer implements ISimpleBlockRenderingHandler {
 
         Entity entity = mute.getEntity();
         MultiTileEntityRegistry reg = mublock.getRegistry();
-        MultiTileContainer container = reg.getMultiTileContainer(entity.get(Id.class).getId());
-        container.getRender().render(entity, renderer, x, y, z, world);
+        reg.getRender(entity.get(Id.class).getId()).render(entity, renderer, x, y, z, world);
 
         return true;
     }

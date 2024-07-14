@@ -16,6 +16,8 @@ import com.gtnewhorizons.mutecore.api.gui.MuTEGUI;
 import com.gtnewhorizons.mutecore.api.render.MuTERender;
 import com.gtnewhorizons.mutecore.api.tile.MultiTileEntity;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import dev.dominion.ecs.api.Entity;
 
 public class MultiTileContainer {
@@ -25,7 +27,6 @@ public class MultiTileContainer {
     private final @Nonnull WeakReference<MultiTileEntityRegistry> reg;
     private final @Nonnull Entity originalEntity;
     private @Nonnull MuTEGUI gui;
-    private @Nonnull MuTERender render;
     private String unlocalizedName;
 
     public MultiTileContainer(@Nonnull MultiTileEntityRegistry reg, int id,
@@ -88,10 +89,6 @@ public class MultiTileContainer {
 
     public @Nonnull MuTEGUI getGUI() {
         return gui;
-    }
-
-    public @Nonnull MuTERender getRender() {
-        return render;
     }
 
     public String getUnlocalizedName() {
