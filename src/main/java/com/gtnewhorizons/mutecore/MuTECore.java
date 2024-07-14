@@ -44,7 +44,7 @@ public class MuTECore {
     public static final Logger LOG = LogManager.getLogger(MODID);
     public static final String DEPENDENCIES = "required-after:gtnhlib@[0.2.7,);" + "required-after:modularui;"
         + "after:appliedenegistics2";
-    @SidedProxy(clientSide = "com.blueweabo.mutecore.ClientProxy", serverSide = "com.blueweabo.mutecore.CommonProxy")
+    @SidedProxy(clientSide = "com.gtnewhorizons.mutecore.ClientProxy", serverSide = "com.gtnewhorizons.mutecore.CommonProxy")
     public static CommonProxy proxy;
     public static Dominion ENGINE;
     public static boolean ENABLE_TESTS;
