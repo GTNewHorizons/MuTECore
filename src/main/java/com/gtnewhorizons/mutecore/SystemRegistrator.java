@@ -28,7 +28,17 @@ public class SystemRegistrator {
      * Register any amount of systems. The systems registered this way will be ran in parallel
      */
     public static void registerSystemsParallel(Runnable... systems) {
-        SYSTEMS.parallelSchedule(systems);
+        int processors = Runtime.getRuntime().availableProcessors();
+        Runnable[] parallel = new Runnable[processors];
+        int count = 0;
+        for (Runnable system : systems) {
+            parallel[count++] = system;
+            if (count >= processors) {
+                SYSTEMS.parallelSchedule(parallel);
+                count = 0;
+                parallel = new Runnable[processors];
+            }
+        }
     }
 
     @SubscribeEvent
