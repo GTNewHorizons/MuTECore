@@ -26,6 +26,8 @@ import com.gtnewhorizons.mutecore.api.data.Coordinates;
 import com.gtnewhorizons.mutecore.api.registry.EventRegistry;
 import com.gtnewhorizons.mutecore.api.registry.MultiTileContainer.Id;
 import com.gtnewhorizons.mutecore.api.registry.MultiTileEntityRegistry;
+import com.gtnewhorizons.mutecore.api.registry.NeighborBlockChangeEvent;
+import com.gtnewhorizons.mutecore.api.registry.NeighborTileChangeEvent;
 import com.gtnewhorizons.mutecore.api.registry.PlayerInteractionEvent;
 import com.gtnewhorizons.mutecore.api.tile.MultiTileEntity;
 import com.gtnewhorizons.mutecore.client.MultiTileBlockRenderer;
@@ -62,6 +64,17 @@ public class MultiTileEntityBlock extends BlockContainer {
     public void onNeighborBlockChange(World worldIn, int x, int y, int z, Block neighbor) {
         super.onNeighborBlockChange(worldIn, x, y, z, neighbor);
         TileEntity te = worldIn.getTileEntity(x, y, z);
+        if (!(te instanceof MultiTileEntity mute)) return;
+        Object eventComponent = null;
+        for (NeighborBlockChangeEvent preEvent : EventRegistry.NEIGHBOR_BLOCK_CHANGE_EVENTS) {
+            eventComponent = preEvent.generate(neighbor, x, y, z, mute.getEntity());
+            if (eventComponent != null) break;
+        }
+        if (eventComponent == null) return;
+        if (mute.getEntity()
+            .has(eventComponent.getClass())) return;
+        mute.getEntity()
+            .add(eventComponent);
     }
 
     @Override
@@ -69,6 +82,17 @@ public class MultiTileEntityBlock extends BlockContainer {
         super.onNeighborChange(world, x, y, z, tileX, tileY, tileZ);
         TileEntity te = world.getTileEntity(x, y, z);
         TileEntity changed = world.getTileEntity(tileX, tileY, tileZ);
+        if (!(te instanceof MultiTileEntity mute)) return;
+        Object eventComponent = null;
+        for (NeighborTileChangeEvent preEvent : EventRegistry.NEIGHBOR_TILE_CHANGE_EVENTS) {
+            eventComponent = preEvent.generate(changed, mute.getEntity());
+            if (eventComponent != null) break;
+        }
+        if (eventComponent == null) return;
+        if (mute.getEntity()
+            .has(eventComponent.getClass())) return;
+        mute.getEntity()
+            .add(eventComponent);
     }
 
     @Override
@@ -84,7 +108,6 @@ public class MultiTileEntityBlock extends BlockContainer {
         }
         if (!(te instanceof MultiTileEntity mute)) return false;
         Object eventComponent = null;
-
         for (PlayerInteractionEvent preEvent : EventRegistry.PLAYER_INTERACTION_EVENTS) {
             eventComponent = preEvent.generate(player, mute.getEntity());
             if (eventComponent != null) break;

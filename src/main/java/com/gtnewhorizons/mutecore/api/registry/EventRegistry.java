@@ -11,13 +11,33 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 public class EventRegistry {
 
     public static final @Internal @Nonnull List<PlayerInteractionEvent> PLAYER_INTERACTION_EVENTS = new ArrayList<>();
+    public static final @Internal @Nonnull List<NeighborBlockChangeEvent> NEIGHBOR_BLOCK_CHANGE_EVENTS = new ArrayList<>();
+    public static final @Internal @Nonnull List<NeighborTileChangeEvent> NEIGHBOR_TILE_CHANGE_EVENTS = new ArrayList<>();
 
     /**
      * Register a player interaction event. This is not the processing of the event,
-     * but a way to delegate it to said processing
+     * but the way to delegate it to said processing.
      */
     public static void registerPlayerInteractionEvent(@Nonnull PlayerInteractionEvent event) {
         PLAYER_INTERACTION_EVENTS.add(event);
         PLAYER_INTERACTION_EVENTS.sort(Comparator.reverseOrder());
+    }
+
+    /**
+     * Register a neighbor block change event. This is not the processing of the event,
+     * but the way to delegate it to said processing.
+     */
+    public static void registerNeighborBlockChangeEvent(@Nonnull NeighborBlockChangeEvent event) {
+        NEIGHBOR_BLOCK_CHANGE_EVENTS.add(event);
+        NEIGHBOR_BLOCK_CHANGE_EVENTS.sort(Comparator.reverseOrder());
+    }
+
+    /**
+     * Register a neighbor tile change event. This is not the processing of the event,
+     * but the way to delegate it to said processing.
+     */
+    public static void registerNeighborTileChangeEvent(@Nonnull NeighborTileChangeEvent event) {
+        NEIGHBOR_TILE_CHANGE_EVENTS.add(event);
+        NEIGHBOR_TILE_CHANGE_EVENTS.sort(Comparator.reverseOrder());
     }
 }
