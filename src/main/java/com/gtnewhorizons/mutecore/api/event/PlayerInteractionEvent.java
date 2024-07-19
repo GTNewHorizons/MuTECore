@@ -1,4 +1,4 @@
-package com.gtnewhorizons.mutecore.api.registry;
+package com.gtnewhorizons.mutecore.api.event;
 
 import javax.annotation.Nonnull;
 

@@ -1,4 +1,4 @@
-package com.gtnewhorizons.mutecore.api.registry;
+package com.gtnewhorizons.mutecore.api.event;
 
 import javax.annotation.Nonnull;
 
@@ -15,15 +15,15 @@ public class NeighborBlockChangeEvent implements Comparable<NeighborBlockChangeE
         this.interaction = interaction;
     }
 
-    public final @Nonnull Object generate(@Nonnull Block neighbor, int x, int y, int z, @Nonnull Entity entity) {
-        return interaction.generateComponent(neighbor, x, y, z, entity);
+    public final @Nonnull void call(@Nonnull Block neighbor, int x, int y, int z, @Nonnull Entity entity) {
+        interaction.executeEvent(neighbor, x, y, z, entity);
     }
 
     @FunctionalInterface
     public static interface NeighborBlockChange {
 
         @Nonnull
-        Object generateComponent(@Nonnull Block neighbor, int x, int y, int z, @Nonnull Entity entity);
+        void executeEvent(@Nonnull Block neighbor, int x, int y, int z, @Nonnull Entity entity);
     }
 
     @Override

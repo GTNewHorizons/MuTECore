@@ -26,9 +26,11 @@ import com.gtnewhorizons.mutecore.api.data.Coordinates;
 import com.gtnewhorizons.mutecore.api.registry.EventRegistry;
 import com.gtnewhorizons.mutecore.api.registry.MultiTileContainer.Id;
 import com.gtnewhorizons.mutecore.api.registry.MultiTileEntityRegistry;
-import com.gtnewhorizons.mutecore.api.registry.NeighborBlockChangeEvent;
-import com.gtnewhorizons.mutecore.api.registry.NeighborTileChangeEvent;
-import com.gtnewhorizons.mutecore.api.registry.PlayerInteractionEvent;
+import com.gtnewhorizons.mutecore.api.event.BlockBreakEvent;
+import com.gtnewhorizons.mutecore.api.event.BlockPlaceEvent;
+import com.gtnewhorizons.mutecore.api.event.NeighborBlockChangeEvent;
+import com.gtnewhorizons.mutecore.api.event.NeighborTileChangeEvent;
+import com.gtnewhorizons.mutecore.api.event.PlayerInteractionEvent;
 import com.gtnewhorizons.mutecore.api.tile.MultiTileEntity;
 import com.gtnewhorizons.mutecore.client.MultiTileBlockRenderer;
 
@@ -65,16 +67,10 @@ public class MultiTileEntityBlock extends BlockContainer {
         super.onNeighborBlockChange(worldIn, x, y, z, neighbor);
         TileEntity te = worldIn.getTileEntity(x, y, z);
         if (!(te instanceof MultiTileEntity mute)) return;
-        Object eventComponent = null;
+        Entity entity = mute.getEntity();
         for (NeighborBlockChangeEvent preEvent : EventRegistry.NEIGHBOR_BLOCK_CHANGE_EVENTS) {
-            eventComponent = preEvent.generate(neighbor, x, y, z, mute.getEntity());
-            if (eventComponent != null) break;
+            preEvent.call(neighbor, x, y, z, entity);
         }
-        if (eventComponent == null) return;
-        if (mute.getEntity()
-            .has(eventComponent.getClass())) return;
-        mute.getEntity()
-            .add(eventComponent);
     }
 
     @Override
@@ -83,16 +79,10 @@ public class MultiTileEntityBlock extends BlockContainer {
         TileEntity te = world.getTileEntity(x, y, z);
         TileEntity changed = world.getTileEntity(tileX, tileY, tileZ);
         if (!(te instanceof MultiTileEntity mute)) return;
-        Object eventComponent = null;
+        Entity entity = mute.getEntity();
         for (NeighborTileChangeEvent preEvent : EventRegistry.NEIGHBOR_TILE_CHANGE_EVENTS) {
-            eventComponent = preEvent.generate(changed, mute.getEntity());
-            if (eventComponent != null) break;
+            preEvent.call(changed, entity);
         }
-        if (eventComponent == null) return;
-        if (mute.getEntity()
-            .has(eventComponent.getClass())) return;
-        mute.getEntity()
-            .add(eventComponent);
     }
 
     @Override
@@ -124,7 +114,11 @@ public class MultiTileEntityBlock extends BlockContainer {
     public void breakBlock(World worldIn, int x, int y, int z, Block blockBroken, int meta) {
         TileEntity te = worldIn.getTileEntity(x, y, z);
         if (!(te instanceof MultiTileEntity mute)) return;
-        MuTECore.ENGINE.deleteEntity(mute.getEntity());
+        Entity entity = mute.getEntity();
+        for (BlockBreakEvent preEvent : EventRegistry.BLOCK_BREAK_EVENTS) {
+            preEvent.call(entity);
+        }
+        MuTECore.ENGINE.deleteEntity(entity);
         super.breakBlock(worldIn, x, y, z, blockBroken, meta);
     }
 
@@ -133,8 +127,11 @@ public class MultiTileEntityBlock extends BlockContainer {
         super.onBlockAdded(worldIn, x, y, z);
         TileEntity te = worldIn.getTileEntity(x, y, z);
         if (!(te instanceof MultiTileEntity mute)) return;
-        mute.getEntity()
-            .add(new Coordinates(x, y, z));
+        Entity entity = mute.getEntity();
+        entity.add(new Coordinates(x, y, z));
+        for (BlockPlaceEvent preEvent : EventRegistry.BLOCK_PLACE_EVENTS) {
+            preEvent.call(entity);
+        }
     }
 
     @Override
