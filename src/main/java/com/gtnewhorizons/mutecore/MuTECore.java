@@ -42,7 +42,7 @@ public class MuTECore {
 
     public static final String MODID = "mutecore";
     public static final Logger LOG = LogManager.getLogger(MODID);
-    public static final String DEPENDENCIES = "required-after:gtnhlib@[0.2.7,);" + "required-after:modularui;"
+    public static final String DEPENDENCIES = "required-after:gtnhlib@[0.2.7,);" + "required-after:modularui2;"
         + "after:appliedenegistics2";
     @SidedProxy(clientSide = "com.gtnewhorizons.mutecore.ClientProxy", serverSide = "com.gtnewhorizons.mutecore.CommonProxy")
     public static CommonProxy proxy;
