@@ -2,12 +2,12 @@ package com.gtnewhorizons.mutecore.test;
 
 import net.minecraft.block.material.Material;
 
+import com.cleanroommc.modularui.screen.ModularPanel;
+import com.cleanroommc.modularui.utils.Alignment;
 import com.gtnewhorizons.mutecore.api.block.MultiTileEntityBlock;
 import com.gtnewhorizons.mutecore.api.item.MultiTileEntityItem;
 import com.gtnewhorizons.mutecore.api.registry.MultiTileEntityRegistry;
 import com.gtnewhorizons.mutecore.api.tile.MultiTileEntity;
-import com.cleanroommc.modularui.screen.ModularPanel;
-import com.cleanroommc.modularui.utils.Alignment;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 

@@ -6,18 +6,14 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
 
 import com.gtnewhorizons.mutecore.MuTECore;
 import com.gtnewhorizons.mutecore.api.data.FirstTickEvent;
 import com.gtnewhorizons.mutecore.api.data.TickData;
 import com.gtnewhorizons.mutecore.api.data.WorldStateValidator;
 import com.gtnewhorizons.mutecore.api.gui.MuTEGUI;
-import com.gtnewhorizons.mutecore.api.render.MuTERender;
 import com.gtnewhorizons.mutecore.api.tile.MultiTileEntity;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import dev.dominion.ecs.api.Entity;
 
 public class MultiTileContainer {

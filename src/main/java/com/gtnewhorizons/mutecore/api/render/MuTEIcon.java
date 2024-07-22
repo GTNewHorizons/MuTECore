@@ -1,16 +1,15 @@
 package com.gtnewhorizons.mutecore.api.render;
 
-import com.gtnewhorizons.mutecore.api.registry.TextureRegistry;
-
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
+
+import com.gtnewhorizons.mutecore.api.registry.TextureRegistry;
 
 public class MuTEIcon implements IIcon {
 
     private String iconPath;
     private IIcon icon;
-
 
     public MuTEIcon(String modid, String path) {
         this(new ResourceLocation(modid, path).toString());

@@ -12,10 +12,10 @@ import net.minecraft.network.PacketBuffer;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.gtnewhorizons.mutecore.MuTECore;
 import com.cleanroommc.modularui.api.IGuiHolder;
 import com.cleanroommc.modularui.factory.AbstractUIFactory;
 import com.cleanroommc.modularui.factory.GuiManager;
+import com.gtnewhorizons.mutecore.MuTECore;
 
 public class MultiTileEntityGuiFactory extends AbstractUIFactory<ComponentData> {
 

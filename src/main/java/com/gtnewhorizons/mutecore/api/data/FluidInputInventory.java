@@ -2,16 +2,14 @@ package com.gtnewhorizons.mutecore.api.data;
 
 import java.util.UUID;
 
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraftforge.common.util.Constants.NBT;
+import net.minecraftforge.fluids.FluidRegistry;
+
 import com.cleanroommc.modularui.api.IFluidTankLong;
 import com.cleanroommc.modularui.utils.fluid.FluidTankLong;
 import com.gtnewhorizons.mutecore.api.inventory.FluidInventory;
-
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTUtil;
-import net.minecraftforge.common.util.Constants.NBT;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
 
 public class FluidInputInventory implements FluidInventory, WorldStateValidator {
 
@@ -49,7 +47,11 @@ public class FluidInputInventory implements FluidInventory, WorldStateValidator 
         for (int i = 0; i < getSize(); i++) {
             NBTTagCompound tankNBT = new NBTTagCompound();
             IFluidTankLong tank = get(i);
-            tankNBT.setString("fluid", tank.getRealFluid() == null ? "" : tank.getRealFluid().getName());
+            tankNBT.setString(
+                "fluid",
+                tank.getRealFluid() == null ? ""
+                    : tank.getRealFluid()
+                        .getName());
             tankNBT.setLong("amount", tank.getFluidAmountLong());
             invNBT.appendTag(tankNBT);
         }

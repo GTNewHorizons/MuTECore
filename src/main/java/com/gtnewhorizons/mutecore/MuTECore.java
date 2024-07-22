@@ -6,6 +6,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.cleanroommc.modularui.factory.GuiManager;
 import com.gtnewhorizons.mutecore.api.data.Coordinates;
 import com.gtnewhorizons.mutecore.api.data.GUIEvent;
 import com.gtnewhorizons.mutecore.api.data.WorldStateValidator;
@@ -16,7 +17,6 @@ import com.gtnewhorizons.mutecore.api.registry.MultiTileContainer.FakeEntity;
 import com.gtnewhorizons.mutecore.api.tile.MultiTileEntity;
 import com.gtnewhorizons.mutecore.api.utils.PlayerHelper;
 import com.gtnewhorizons.mutecore.test.TestRegistry;
-import com.cleanroommc.modularui.factory.GuiManager;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -44,7 +44,9 @@ public class MuTECore {
     public static final Logger LOG = LogManager.getLogger(MODID);
     public static final String DEPENDENCIES = "required-after:gtnhlib@[0.2.7,);" + "required-after:modularui2;"
         + "after:appliedenegistics2";
-    @SidedProxy(clientSide = "com.gtnewhorizons.mutecore.ClientProxy", serverSide = "com.gtnewhorizons.mutecore.CommonProxy")
+    @SidedProxy(
+        clientSide = "com.gtnewhorizons.mutecore.ClientProxy",
+        serverSide = "com.gtnewhorizons.mutecore.CommonProxy")
     public static CommonProxy proxy;
     public static Dominion ENGINE;
     public static boolean ENABLE_TESTS;

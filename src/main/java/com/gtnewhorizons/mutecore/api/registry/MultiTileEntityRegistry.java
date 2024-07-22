@@ -10,13 +10,12 @@ import net.minecraft.tileentity.TileEntity;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
+import com.cleanroommc.modularui.utils.item.ItemStackLong;
+import com.google.common.primitives.Ints;
 import com.gtnewhorizons.mutecore.MuTECore;
 import com.gtnewhorizons.mutecore.api.block.MultiTileEntityBlock;
 import com.gtnewhorizons.mutecore.api.render.MuTERender;
 import com.gtnewhorizons.mutecore.api.tile.MultiTileEntity;
-
-import com.cleanroommc.modularui.utils.item.ItemStackLong;
-import com.google.common.primitives.Ints;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;

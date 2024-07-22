@@ -2,10 +2,11 @@ package com.gtnewhorizons.mutecore.api.event;
 
 import javax.annotation.Nonnull;
 
-import dev.dominion.ecs.api.Entity;
 import net.minecraft.block.Block;
 
-public class NeighborBlockChangeEvent implements Comparable<NeighborBlockChangeEvent>{
+import dev.dominion.ecs.api.Entity;
+
+public class NeighborBlockChangeEvent implements Comparable<NeighborBlockChangeEvent> {
 
     private int priority;
     private NeighborBlockChange interaction;

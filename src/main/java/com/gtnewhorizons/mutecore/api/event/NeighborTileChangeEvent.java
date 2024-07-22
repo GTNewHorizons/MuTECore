@@ -2,10 +2,11 @@ package com.gtnewhorizons.mutecore.api.event;
 
 import javax.annotation.Nonnull;
 
-import dev.dominion.ecs.api.Entity;
 import net.minecraft.tileentity.TileEntity;
 
-public class NeighborTileChangeEvent implements Comparable<NeighborTileChangeEvent>{
+import dev.dominion.ecs.api.Entity;
+
+public class NeighborTileChangeEvent implements Comparable<NeighborTileChangeEvent> {
 
     private int priority;
     private NeighborTileChange interaction;

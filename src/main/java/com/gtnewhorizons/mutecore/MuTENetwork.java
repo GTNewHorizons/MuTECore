@@ -17,13 +17,13 @@ import net.minecraft.world.chunk.Chunk;
 
 import org.jetbrains.annotations.Nullable;
 
+import com.cleanroommc.modularui.network.IPacket;
 import com.gtnewhorizons.mutecore.api.block.MultiTileEntityBlock;
 import com.gtnewhorizons.mutecore.api.data.Coordinates;
 import com.gtnewhorizons.mutecore.api.data.WorldStateValidator;
 import com.gtnewhorizons.mutecore.api.registry.MultiTileContainer;
 import com.gtnewhorizons.mutecore.api.registry.MultiTileEntityRegistry;
 import com.gtnewhorizons.mutecore.api.tile.MultiTileEntity;
-import com.cleanroommc.modularui.network.IPacket;
 
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;

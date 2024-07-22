@@ -6,6 +6,9 @@ import net.minecraft.tileentity.TileEntity;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
+import com.cleanroommc.modularui.api.IGuiHolder;
+import com.cleanroommc.modularui.screen.ModularPanel;
+import com.cleanroommc.modularui.value.sync.GuiSyncManager;
 import com.gtnewhorizons.mutecore.MuTECore;
 import com.gtnewhorizons.mutecore.MuTENetwork;
 import com.gtnewhorizons.mutecore.MuTENetwork.MuTEPacket;
@@ -17,9 +20,6 @@ import com.gtnewhorizons.mutecore.api.gui.ComponentData;
 import com.gtnewhorizons.mutecore.api.registry.MultiTileContainer;
 import com.gtnewhorizons.mutecore.api.registry.MultiTileContainer.Id;
 import com.gtnewhorizons.mutecore.api.registry.MultiTileEntityRegistry;
-import com.cleanroommc.modularui.api.IGuiHolder;
-import com.cleanroommc.modularui.screen.ModularPanel;
-import com.cleanroommc.modularui.value.sync.GuiSyncManager;
 
 import dev.dominion.ecs.api.Entity;
 import dev.dominion.ecs.engine.IntEntity;

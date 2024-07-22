@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 
 import dev.dominion.ecs.api.Entity;
 
-public class BlockPlaceEvent implements Comparable<BlockPlaceEvent>{
+public class BlockPlaceEvent implements Comparable<BlockPlaceEvent> {
 
     private int priority;
     private BlockPlace interaction;

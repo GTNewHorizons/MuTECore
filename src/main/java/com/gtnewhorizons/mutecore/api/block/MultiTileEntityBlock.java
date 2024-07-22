@@ -23,14 +23,14 @@ import com.gtnewhorizons.mutecore.MuTECore;
 import com.gtnewhorizons.mutecore.MuTENetwork;
 import com.gtnewhorizons.mutecore.MuTENetwork.MuTEPacket;
 import com.gtnewhorizons.mutecore.api.data.Coordinates;
-import com.gtnewhorizons.mutecore.api.registry.EventRegistry;
-import com.gtnewhorizons.mutecore.api.registry.MultiTileContainer.Id;
-import com.gtnewhorizons.mutecore.api.registry.MultiTileEntityRegistry;
 import com.gtnewhorizons.mutecore.api.event.BlockBreakEvent;
 import com.gtnewhorizons.mutecore.api.event.BlockPlaceEvent;
 import com.gtnewhorizons.mutecore.api.event.NeighborBlockChangeEvent;
 import com.gtnewhorizons.mutecore.api.event.NeighborTileChangeEvent;
 import com.gtnewhorizons.mutecore.api.event.PlayerInteractionEvent;
+import com.gtnewhorizons.mutecore.api.registry.EventRegistry;
+import com.gtnewhorizons.mutecore.api.registry.MultiTileContainer.Id;
+import com.gtnewhorizons.mutecore.api.registry.MultiTileEntityRegistry;
 import com.gtnewhorizons.mutecore.api.tile.MultiTileEntity;
 import com.gtnewhorizons.mutecore.client.MultiTileBlockRenderer;
 

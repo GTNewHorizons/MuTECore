@@ -2,13 +2,13 @@ package com.gtnewhorizons.mutecore.api.data;
 
 import java.util.UUID;
 
-import com.cleanroommc.modularui.api.IItemStackLong;
-import com.cleanroommc.modularui.utils.item.ItemStackLong;
-import com.gtnewhorizons.mutecore.api.inventory.ItemInventory;
-
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.Constants.NBT;
+
+import com.cleanroommc.modularui.api.IItemStackLong;
+import com.cleanroommc.modularui.utils.item.ItemStackLong;
+import com.gtnewhorizons.mutecore.api.inventory.ItemInventory;
 
 public class ItemInputInventory implements ItemInventory, WorldStateValidator {
 
@@ -23,7 +23,6 @@ public class ItemInputInventory implements ItemInventory, WorldStateValidator {
         }
         key = UUID.randomUUID();
     }
-
 
     @Override
     public IItemStackLong get(int index) {

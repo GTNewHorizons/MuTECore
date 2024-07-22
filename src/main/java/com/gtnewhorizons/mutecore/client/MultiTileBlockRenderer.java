@@ -3,13 +3,11 @@ package com.gtnewhorizons.mutecore.client;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 
 import com.gtnewhorizons.mutecore.api.block.MultiTileEntityBlock;
-import com.gtnewhorizons.mutecore.api.registry.MultiTileContainer;
-import com.gtnewhorizons.mutecore.api.registry.MultiTileEntityRegistry;
 import com.gtnewhorizons.mutecore.api.registry.MultiTileContainer.Id;
+import com.gtnewhorizons.mutecore.api.registry.MultiTileEntityRegistry;
 import com.gtnewhorizons.mutecore.api.tile.MultiTileEntity;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
@@ -42,7 +40,10 @@ public class MultiTileBlockRenderer implements ISimpleBlockRenderingHandler {
 
         Entity entity = mute.getEntity();
         MultiTileEntityRegistry reg = mublock.getRegistry();
-        reg.getRender(entity.get(Id.class).getId()).render(entity, renderer, x, y, z, world);
+        reg.getRender(
+            entity.get(Id.class)
+                .getId())
+            .render(entity, renderer, x, y, z, world);
 
         return true;
     }
