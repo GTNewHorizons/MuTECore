@@ -1,20 +1,20 @@
 package com.gtnewhorizons.mutecore.api.data;
 
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 
 public class WorldContainer {
 
-    private IBlockAccess world;
+    private World world;
 
-    public WorldContainer(IBlockAccess world) {
+    public WorldContainer(World world) {
         this.world = world;
     }
 
-    public IBlockAccess getWorld() {
+    public World getWorld() {
         return world;
     }
 
-    public void setWorld(IBlockAccess world) {
+    public void setWorld(World world) {
         this.world = world;
     }
 }
