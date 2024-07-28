@@ -9,10 +9,9 @@ import net.minecraft.nbt.NBTTagCompound;
 
 import com.gtnewhorizons.mutecore.MuTECore;
 import com.gtnewhorizons.mutecore.api.data.FirstTickEvent;
-import com.gtnewhorizons.mutecore.api.data.TickData;
 import com.gtnewhorizons.mutecore.api.data.WorldStateValidator;
 import com.gtnewhorizons.mutecore.api.gui.MuTEGUI;
-import com.gtnewhorizons.mutecore.api.item.TooltipData;
+import com.gtnewhorizons.mutecore.api.item.TooltipAssigner;
 import com.gtnewhorizons.mutecore.api.tile.MultiTileEntity;
 
 import dev.dominion.ecs.api.Entity;
@@ -23,7 +22,7 @@ public class MultiTileContainer {
     private final int id;
     private final @Nonnull WeakReference<MultiTileEntityRegistry> reg;
     private final @Nonnull Entity originalEntity;
-    private Class<? extends TooltipData> tooltipClass;
+    private Class<? extends TooltipAssigner> tooltipClass;
     private @Nonnull MuTEGUI gui;
     private String unlocalizedName;
 
@@ -52,7 +51,7 @@ public class MultiTileContainer {
         return this;
     }
 
-    public @Nonnull MultiTileContainer tooltipClass(Class<? extends TooltipData> tooltipClass) {
+    public @Nonnull MultiTileContainer tooltipClass(Class<? extends TooltipAssigner> tooltipClass) {
         this.tooltipClass = tooltipClass;
         return this;
     }
@@ -97,7 +96,7 @@ public class MultiTileContainer {
         return unlocalizedName;
     }
 
-    public Class<? extends TooltipData> getTooltipClass() {
+    public Class<? extends TooltipAssigner> getTooltipClass() {
         return tooltipClass;
     }
 
