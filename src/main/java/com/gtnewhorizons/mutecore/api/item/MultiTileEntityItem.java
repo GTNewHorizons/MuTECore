@@ -7,10 +7,17 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
 
 import com.gtnewhorizons.mutecore.api.block.MultiTileEntityBlock;
+import com.gtnewhorizons.mutecore.api.data.PlayerUUID;
+import com.gtnewhorizons.mutecore.api.registry.MultiTileContainer;
+import com.gtnewhorizons.mutecore.api.tile.MultiTileEntity;
+
+import dev.dominion.ecs.api.Entity;
 
 public class MultiTileEntityItem extends ItemBlock implements IFluidContainerItem {
 
@@ -29,6 +36,12 @@ public class MultiTileEntityItem extends ItemBlock implements IFluidContainerIte
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> tooltip, boolean f3h) {
         super.addInformation(itemStack, player, tooltip, f3h);
+        MultiTileContainer container = block.getRegistry().getMultiTileContainer(itemStack.getItemDamage());
+        Class<? extends TooltipData> toolTipClass = container.getTooltipClass();
+        Entity entity = container.getOriginalEntity();
+        TooltipData tooltipData = entity.get(toolTipClass);
+        tooltipData.assignTooltip(tooltip);
+
     }
 
     @Override
@@ -36,6 +49,21 @@ public class MultiTileEntityItem extends ItemBlock implements IFluidContainerIte
         return block.getRegistry()
             .getMultiTileContainer(Items.feather.getDamage(stack))
             .getUnlocalizedName();
+    }
+
+    @Override
+    public boolean onItemUse(ItemStack item, EntityPlayer player, World world, int x,
+        int y, int z, int side, float xF, float yF, float zF) {
+
+        boolean status = super.onItemUse(item, player, world, x, y, z, side, xF,
+            yF, zF);
+        if (status) {
+            TileEntity te = world.getTileEntity(x, y, z);
+            if (!(te instanceof MultiTileEntity mute)) return status;
+            Entity entity = mute.getEntity();
+            entity.add(new PlayerUUID(player.getUniqueID()));
+        }
+        return status;
     }
 
     @Override

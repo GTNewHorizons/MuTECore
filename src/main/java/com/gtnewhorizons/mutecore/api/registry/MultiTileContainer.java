@@ -12,6 +12,7 @@ import com.gtnewhorizons.mutecore.api.data.FirstTickEvent;
 import com.gtnewhorizons.mutecore.api.data.TickData;
 import com.gtnewhorizons.mutecore.api.data.WorldStateValidator;
 import com.gtnewhorizons.mutecore.api.gui.MuTEGUI;
+import com.gtnewhorizons.mutecore.api.item.TooltipData;
 import com.gtnewhorizons.mutecore.api.tile.MultiTileEntity;
 
 import dev.dominion.ecs.api.Entity;
@@ -22,6 +23,7 @@ public class MultiTileContainer {
     private final int id;
     private final @Nonnull WeakReference<MultiTileEntityRegistry> reg;
     private final @Nonnull Entity originalEntity;
+    private Class<? extends TooltipData> tooltipClass;
     private @Nonnull MuTEGUI gui;
     private String unlocalizedName;
 
@@ -50,6 +52,11 @@ public class MultiTileContainer {
         return this;
     }
 
+    public @Nonnull MultiTileContainer tooltipClass(Class<? extends TooltipData> tooltipClass) {
+        this.tooltipClass = tooltipClass;
+        return this;
+    }
+
     public boolean register() {
         if (gui == null) throw new IllegalStateException("No gui was registered for entity with id: " + id);
         return reg.get() != null && reg.get()
@@ -64,7 +71,6 @@ public class MultiTileContainer {
                 id,
                 reg.get()
                     .getBlockId()));
-        newEntity.add(new TickData());
         newEntity.add(new FirstTickEvent());
         return newEntity;
     }
@@ -89,6 +95,14 @@ public class MultiTileContainer {
 
     public String getUnlocalizedName() {
         return unlocalizedName;
+    }
+
+    public Class<? extends TooltipData> getTooltipClass() {
+        return tooltipClass;
+    }
+
+    public Entity getOriginalEntity() {
+        return originalEntity;
     }
 
     @Override
