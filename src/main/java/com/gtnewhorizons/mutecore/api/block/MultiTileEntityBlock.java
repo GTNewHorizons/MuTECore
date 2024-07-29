@@ -89,6 +89,7 @@ public class MultiTileEntityBlock extends BlockContainer {
     public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX,
         float subY, float subZ) {
         TileEntity te = worldIn.getTileEntity(x, y, z);
+        if (!(te instanceof MultiTileEntity mute)) return false;
         if (player instanceof EntityPlayerMP playermp) {
             MuTEPacket packet = new MuTEPacket();
             NBTTagCompound nbt = new NBTTagCompound();
@@ -96,7 +97,6 @@ public class MultiTileEntityBlock extends BlockContainer {
             packet.setComponentData(nbt);
             MuTENetwork.sendToPlayer(packet, playermp);
         }
-        if (!(te instanceof MultiTileEntity mute)) return false;
         Object eventComponent = null;
         for (PlayerInteractionEvent preEvent : EventRegistry.PLAYER_INTERACTION_EVENTS) {
             eventComponent = preEvent.generate(player, mute.getEntity());

@@ -31,6 +31,7 @@ import dev.dominion.ecs.api.Dominion;
 import dev.dominion.ecs.api.Entity;
 import dev.dominion.ecs.api.Results;
 import dev.dominion.ecs.engine.IntEntity;
+import micdoodle8.mods.galacticraft.core.event.EventHandlerGC;
 
 @Mod(
     modid = MuTECore.MODID,
@@ -69,7 +70,7 @@ public class MuTECore {
     public void init(FMLInitializationEvent initEvent) {
         proxy.init(initEvent);
         EventRegistry.registerPlayerInteractionEvent(
-            new PlayerInteractionEvent(0, (p, e) -> {LOG.debug("gui event comp"); return PlayerHelper.isRealPlayer(p) ? new GUIEvent(p) : null;}));
+            new PlayerInteractionEvent(0, (p, e) -> PlayerHelper.isRealPlayer(p) ? new GUIEvent(p) : null));
         SystemRegistrator.registerSystem(() -> {
             Results<Results.With1<GUIEvent>> results = MuTECore.ENGINE.findEntitiesWith(GUIEvent.class);
             for (Results.With1<GUIEvent> result : results) {
@@ -83,7 +84,6 @@ public class MuTECore {
                         validator.save(nbt);
                     }
                 }
-                LOG.debug("opening gui");
                 MultiTileEntityGuiFactory.open(event.getPlayer(), coords.getX(), coords.getY(), coords.getZ(), nbt);
                 entity.removeType(GUIEvent.class);
             }

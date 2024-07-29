@@ -40,5 +40,6 @@ dependencies {
     shadowImplementation("dev.dominion.ecs:dominion-ecs-engine:0.9.0") // MIT License
     api("com.github.GTNewHorizons:waila:1.8.1:dev")
     //api("com.github.GTNewHorizons:Angelica:1.0.0-alpha52:dev")
+    //implementation("com.github.GTNewHorizons:Galacticraft:3.2.0-GTNH:dev")
 }
 

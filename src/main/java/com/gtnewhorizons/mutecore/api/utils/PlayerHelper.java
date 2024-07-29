@@ -14,6 +14,6 @@ public class PlayerHelper {
      * {@link net.minecraftforge.common.util.FakePlayer}
      */
     public static boolean isRealPlayer(@Nonnull EntityPlayer player) {
-        return player.getClass() == EntityPlayerSP.class || player.getClass() == EntityPlayerMP.class;
+        return player instanceof EntityPlayerSP || player instanceof EntityPlayerMP;
     }
 }
