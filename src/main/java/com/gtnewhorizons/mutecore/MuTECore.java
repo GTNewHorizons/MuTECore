@@ -31,7 +31,6 @@ import dev.dominion.ecs.api.Dominion;
 import dev.dominion.ecs.api.Entity;
 import dev.dominion.ecs.api.Results;
 import dev.dominion.ecs.engine.IntEntity;
-import micdoodle8.mods.galacticraft.core.event.EventHandlerGC;
 
 @Mod(
     modid = MuTECore.MODID,

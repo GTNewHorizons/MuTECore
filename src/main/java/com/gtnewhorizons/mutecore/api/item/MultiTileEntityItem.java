@@ -36,7 +36,8 @@ public class MultiTileEntityItem extends ItemBlock implements IFluidContainerIte
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> tooltip, boolean f3h) {
         super.addInformation(itemStack, player, tooltip, f3h);
-        MultiTileContainer container = block.getRegistry().getMultiTileContainer(itemStack.getItemDamage());
+        MultiTileContainer container = block.getRegistry()
+            .getMultiTileContainer(itemStack.getItemDamage());
         Class<? extends TooltipAssigner> toolTipClass = container.getTooltipClass();
         if (toolTipClass == null) return;
         Entity entity = container.getOriginalEntity();
@@ -52,11 +53,10 @@ public class MultiTileEntityItem extends ItemBlock implements IFluidContainerIte
     }
 
     @Override
-    public boolean onItemUse(ItemStack item, EntityPlayer player, World world, int x,
-        int y, int z, int side, float xF, float yF, float zF) {
+    public boolean onItemUse(ItemStack item, EntityPlayer player, World world, int x, int y, int z, int side, float xF,
+        float yF, float zF) {
 
-        boolean status = super.onItemUse(item, player, world, x, y, z, side, xF,
-            yF, zF);
+        boolean status = super.onItemUse(item, player, world, x, y, z, side, xF, yF, zF);
         if (status) {
             TileEntity te = world.getTileEntity(x, y, z);
             if (!(te instanceof MultiTileEntity mute)) return status;
