@@ -29,7 +29,8 @@ public class MultiTileEntityGuiFactory extends AbstractUIFactory<ComponentData> 
         Objects.requireNonNull(player);
         Objects.requireNonNull(componentData);
         ComponentData data = new ComponentData(player, x, y, z, componentData);
-        GuiManager.open(INSTANCE, data, (EntityPlayerMP) player);
+        if (!(player instanceof EntityPlayerMP playerMP)) return;
+        GuiManager.open(INSTANCE, data, playerMP);
     }
 
     @Override
