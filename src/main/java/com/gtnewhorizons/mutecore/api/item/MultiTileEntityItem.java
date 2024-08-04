@@ -14,6 +14,7 @@ import net.minecraftforge.fluids.IFluidContainerItem;
 
 import com.gtnewhorizons.mutecore.api.block.MultiTileEntityBlock;
 import com.gtnewhorizons.mutecore.api.data.PlayerUUID;
+import com.gtnewhorizons.mutecore.api.data.WorldContainer;
 import com.gtnewhorizons.mutecore.api.registry.MultiTileContainer;
 import com.gtnewhorizons.mutecore.api.tile.MultiTileEntity;
 
@@ -62,6 +63,7 @@ public class MultiTileEntityItem extends ItemBlock implements IFluidContainerIte
             if (!(te instanceof MultiTileEntity mute)) return status;
             Entity entity = mute.getEntity();
             entity.add(new PlayerUUID(player.getUniqueID()));
+            entity.add(new WorldContainer(world));
         }
         return status;
     }

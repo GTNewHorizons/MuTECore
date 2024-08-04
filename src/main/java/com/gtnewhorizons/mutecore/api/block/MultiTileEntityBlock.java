@@ -23,6 +23,7 @@ import com.gtnewhorizons.mutecore.MuTECore;
 import com.gtnewhorizons.mutecore.MuTENetwork;
 import com.gtnewhorizons.mutecore.MuTENetwork.MuTEPacket;
 import com.gtnewhorizons.mutecore.api.data.Coordinates;
+import com.gtnewhorizons.mutecore.api.data.WorldContainer;
 import com.gtnewhorizons.mutecore.api.event.BlockBreakEvent;
 import com.gtnewhorizons.mutecore.api.event.BlockPlaceEvent;
 import com.gtnewhorizons.mutecore.api.event.NeighborBlockChangeEvent;
@@ -129,6 +130,7 @@ public class MultiTileEntityBlock extends BlockContainer {
         if (!(te instanceof MultiTileEntity mute)) return;
         Entity entity = mute.getEntity();
         entity.add(new Coordinates(x, y, z));
+        entity.add(new WorldContainer(worldIn));
         for (BlockPlaceEvent preEvent : EventRegistry.BLOCK_PLACE_EVENTS) {
             preEvent.call(entity);
         }
