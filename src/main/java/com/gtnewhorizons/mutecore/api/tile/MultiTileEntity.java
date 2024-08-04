@@ -67,6 +67,9 @@ public class MultiTileEntity extends TileEntity implements IGuiHolder<ComponentD
         if (entity == null) {
             entity = container.createNewEntity();
         }
+        if (!entity.has(WorldContainer.class)) {
+            entity.add(new WorldContainer(syncManager.getPlayer().worldObj));
+        }
         Object[] components = ((IntEntity) entity).getComponentArray();
         for (Object component : components) {
             if (component instanceof WorldStateValidator validator) {

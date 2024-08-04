@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import com.cleanroommc.modularui.network.IPacket;
 import com.gtnewhorizons.mutecore.api.block.MultiTileEntityBlock;
 import com.gtnewhorizons.mutecore.api.data.Coordinates;
+import com.gtnewhorizons.mutecore.api.data.WorldContainer;
 import com.gtnewhorizons.mutecore.api.data.WorldStateValidator;
 import com.gtnewhorizons.mutecore.api.registry.MultiTileContainer;
 import com.gtnewhorizons.mutecore.api.registry.MultiTileEntityRegistry;
@@ -120,6 +121,7 @@ public class MuTENetwork {
                     .getInteger("i"));
             Entity entity = container.createNewEntity();
             entity.add(coords);
+            entity.add(new WorldContainer(Minecraft.getMinecraft().theWorld));
             Object[] components = ((IntEntity) entity).getComponentArray();
             for (int i = 0; i < components.length; i++) {
                 if (!(components[i] instanceof WorldStateValidator validator)) continue;

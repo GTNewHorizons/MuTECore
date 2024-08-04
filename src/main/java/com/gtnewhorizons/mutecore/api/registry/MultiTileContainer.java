@@ -150,16 +150,16 @@ public class MultiTileContainer {
         @Override
         public void save(NBTTagCompound nbt) {
             NBTTagCompound idNBT = new NBTTagCompound();
-            idNBT.setInteger("i", id);
             idNBT.setInteger("r", regId);
+            idNBT.setInteger("i", id);
             nbt.setTag("idData", idNBT);
         }
 
         @Override
         public void load(NBTTagCompound nbt) {
             NBTTagCompound idNBT = nbt.getCompoundTag("idData");
-            id = idNBT.getInteger("i");
             regId = idNBT.getInteger("r");
+            id = idNBT.getInteger("i");
         }
     }
 }
