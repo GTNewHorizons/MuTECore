@@ -17,11 +17,13 @@ import com.gtnewhorizons.mutecore.api.block.MultiTileEntityBlock;
 import com.gtnewhorizons.mutecore.api.render.MuTERender;
 import com.gtnewhorizons.mutecore.api.tile.MultiTileEntity;
 
+import it.unimi.dsi.fastutil.Pair;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
 public class MultiTileEntityRegistry {
 
+    private static final List<Pair<MultiTileEntityBlock, MultiTileEntityRegistry>> TO_REGISTER = new ArrayList<>();
     private static final Int2ObjectMap<MultiTileEntityRegistry> REGISTRY_MAP = new Int2ObjectOpenHashMap<>();
 
     private final MultiTileEntityBlock block;
@@ -32,8 +34,16 @@ public class MultiTileEntityRegistry {
      * Should only be called after the block has been registered
      */
     public static void registerRegistry(MultiTileEntityBlock block, MultiTileEntityRegistry registry) {
-        int id = Block.getIdFromBlock(block);
-        REGISTRY_MAP.put(id, registry);
+        TO_REGISTER.add(Pair.of(block, registry));
+    }
+
+    public static void registerForSave() {
+        REGISTRY_MAP.clear();
+        for (int i = 0; i < TO_REGISTER.size(); i++) {
+            Pair<MultiTileEntityBlock, MultiTileEntityRegistry> pair = TO_REGISTER.get(i);
+            int id = Block.getIdFromBlock(pair.left());
+            REGISTRY_MAP.put(id, pair.right());
+        }
     }
 
     @Internal

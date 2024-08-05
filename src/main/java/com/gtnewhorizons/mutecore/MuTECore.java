@@ -14,6 +14,7 @@ import com.gtnewhorizons.mutecore.api.event.PlayerInteractionEvent;
 import com.gtnewhorizons.mutecore.api.gui.MultiTileEntityGuiFactory;
 import com.gtnewhorizons.mutecore.api.registry.EventRegistry;
 import com.gtnewhorizons.mutecore.api.registry.MultiTileContainer.FakeEntity;
+import com.gtnewhorizons.mutecore.api.registry.MultiTileEntityRegistry;
 import com.gtnewhorizons.mutecore.api.tile.MultiTileEntity;
 import com.gtnewhorizons.mutecore.api.utils.PlayerHelper;
 import com.gtnewhorizons.mutecore.test.TestRegistry;
@@ -100,6 +101,7 @@ public class MuTECore {
     @Mod.EventHandler
     public void serverStarting(FMLServerStartingEvent event) {
         proxy.serverStarting(event);
+        MultiTileEntityRegistry.registerForSave();
     }
 
     @Mod.EventHandler
