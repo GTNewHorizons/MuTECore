@@ -8,7 +8,7 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.cleanroommc.modularui.api.IGuiHolder;
 import com.cleanroommc.modularui.screen.ModularPanel;
-import com.cleanroommc.modularui.value.sync.GuiSyncManager;
+import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.gtnewhorizons.mutecore.MuTECore;
 import com.gtnewhorizons.mutecore.MuTENetwork;
 import com.gtnewhorizons.mutecore.MuTENetwork.MuTEPacket;
@@ -58,7 +58,7 @@ public class MultiTileEntity extends TileEntity implements IGuiHolder<ComponentD
     }
 
     @Override
-    public ModularPanel buildUI(ComponentData data, GuiSyncManager syncManager) {
+    public ModularPanel buildUI(ComponentData data, PanelSyncManager syncManager) {
         MultiTileEntityRegistry reg = ((MultiTileEntityBlock) data.getWorld()
             .getBlock(xCoord, yCoord, zCoord)).getRegistry();
         MultiTileContainer container = reg.getMultiTileContainer(
