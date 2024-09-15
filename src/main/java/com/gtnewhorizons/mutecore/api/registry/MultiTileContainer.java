@@ -1,6 +1,10 @@
 package com.gtnewhorizons.mutecore.api.registry;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -21,7 +25,8 @@ public class MultiTileContainer {
     private final @Nonnull Class<? extends MultiTileEntity> clazz;
     private final int id;
     private final @Nonnull WeakReference<MultiTileEntityRegistry> reg;
-    private final @Nonnull Entity originalEntity;
+    private final Set<ComponentContainer> components;
+    private final @Nonnull Entity fakeEntity;
     private Class<? extends TooltipAssigner> tooltipClass;
     private @Nonnull MuTEGUI gui;
     private String unlocalizedName;
@@ -31,12 +36,14 @@ public class MultiTileContainer {
         this.reg = new WeakReference<>(reg);
         this.clazz = clazz;
         this.id = id;
-        originalEntity = MuTECore.ENGINE.createEntity(new FakeEntity());
+        fakeEntity = MuTECore.ENGINE.createEntity(new FakeEntity());
+        components = new HashSet<>();
     }
 
-    public @Nonnull MultiTileContainer addComponents(Object... components) {
-        for (Object component : components) {
-            originalEntity.add(component);
+    public @Nonnull MultiTileContainer addComponents(ComponentContainer... components) {
+        for (ComponentContainer component : components) {
+            this.components.add(component);
+            fakeEntity.add(component.create());
         }
         return this;
     }
@@ -63,8 +70,13 @@ public class MultiTileContainer {
     }
 
     public @Nonnull Entity createNewEntity() {
-        Entity newEntity = MuTECore.ENGINE.createEntityAs(originalEntity);
-        newEntity.removeType(FakeEntity.class);
+        List<Object> components = new ArrayList<>();
+        for (ComponentContainer componentContainer : this.components) {
+            Object component = componentContainer.create();
+            if (component == null) continue;
+            components.add(component);
+        }
+        Entity newEntity = MuTECore.ENGINE.createEntity(components.toArray());
         newEntity.add(
             new Id(
                 id,
@@ -100,8 +112,8 @@ public class MultiTileContainer {
         return tooltipClass;
     }
 
-    public Entity getOriginalEntity() {
-        return originalEntity;
+    public Entity getFakeEntity() {
+        return fakeEntity;
     }
 
     @Override

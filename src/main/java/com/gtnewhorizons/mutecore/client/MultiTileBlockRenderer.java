@@ -35,7 +35,7 @@ public class MultiTileBlockRenderer implements ISimpleBlockRenderingHandler {
         GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
 
         MultiTileEntityRegistry reg = mublock.getRegistry();
-        reg.getRender(metadata).render(reg.getMultiTileContainer(metadata).getOriginalEntity(), renderer, 0, 0, 0, null);
+        reg.getRender(metadata).render(reg.getMultiTileContainer(metadata).getFakeEntity(), renderer, 0, 0, 0, null);
 
         GL11.glTranslatef(0.5F, 0.5F, 0.5F);
     }

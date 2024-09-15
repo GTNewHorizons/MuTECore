@@ -41,7 +41,7 @@ public class MultiTileEntityItem extends ItemBlock implements IFluidContainerIte
             .getMultiTileContainer(itemStack.getItemDamage());
         Class<? extends TooltipAssigner> toolTipClass = container.getTooltipClass();
         if (toolTipClass == null) return;
-        Entity entity = container.getOriginalEntity();
+        Entity entity = container.getFakeEntity();
         TooltipAssigner tooltipData = entity.get(toolTipClass);
         tooltipData.assignTooltip(tooltip);
     }
