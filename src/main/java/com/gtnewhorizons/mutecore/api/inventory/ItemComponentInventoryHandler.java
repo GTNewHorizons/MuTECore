@@ -1,7 +1,7 @@
 package com.gtnewhorizons.mutecore.api.inventory;
 
-import com.cleanroommc.modularui.api.IItemStackLong;
 import com.cleanroommc.modularui.utils.item.IItemHandlerLong;
+import com.cleanroommc.modularui.utils.item.IItemStackLong;
 import com.cleanroommc.modularui.utils.item.ItemHandlerHelper;
 
 public class ItemComponentInventoryHandler implements IItemHandlerLong {

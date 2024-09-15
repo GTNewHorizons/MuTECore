@@ -2,8 +2,8 @@ package com.gtnewhorizons.mutecore.api.inventory;
 
 import net.minecraftforge.fluids.Fluid;
 
-import com.cleanroommc.modularui.api.IFluidTankLong;
 import com.cleanroommc.modularui.utils.fluid.FluidTankLong;
+import com.cleanroommc.modularui.utils.fluid.IFluidTankLong;
 import com.cleanroommc.modularui.utils.fluid.IFluidTanksHandler;
 
 public class FluidComponentInventoryHandler implements IFluidTanksHandler {

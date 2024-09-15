@@ -7,8 +7,8 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.fluids.FluidRegistry;
 
-import com.cleanroommc.modularui.api.IFluidTankLong;
 import com.cleanroommc.modularui.utils.fluid.FluidTankLong;
+import com.cleanroommc.modularui.utils.fluid.IFluidTankLong;
 import com.gtnewhorizons.mutecore.api.inventory.FluidInventory;
 
 public class FluidOutputInventory implements FluidInventory, WorldStateValidator {

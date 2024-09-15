@@ -1,6 +1,6 @@
 package com.gtnewhorizons.mutecore.api.inventory;
 
-import com.cleanroommc.modularui.api.IFluidTankLong;
+import com.cleanroommc.modularui.utils.fluid.IFluidTankLong;
 
 public interface FluidInventory {
 
