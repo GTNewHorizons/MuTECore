@@ -25,7 +25,7 @@ public class MultiTileContainer {
     private final @Nonnull Class<? extends MultiTileEntity> clazz;
     private final int id;
     private final @Nonnull WeakReference<MultiTileEntityRegistry> reg;
-    private final Set<ComponentContainer> components;
+    private @Nonnull ComponentsCreator componentsCreator;
     private final @Nonnull Entity fakeEntity;
     private Class<? extends TooltipAssigner> tooltipClass;
     private @Nonnull MuTEGUI gui;
@@ -37,13 +37,13 @@ public class MultiTileContainer {
         this.clazz = clazz;
         this.id = id;
         fakeEntity = MuTECore.ENGINE.createEntity(new FakeEntity());
-        components = new HashSet<>();
     }
 
-    public @Nonnull MultiTileContainer addComponents(ComponentContainer... components) {
-        for (ComponentContainer component : components) {
-            this.components.add(component);
-            fakeEntity.add(component.create());
+    public @Nonnull MultiTileContainer componentsCreator(ComponentsCreator componentsCreator) {
+        this.componentsCreator = componentsCreator;
+        List<Object> components = this.componentsCreator.createComponents();
+        for (int i = 0; i < components.size(); i++) {
+            fakeEntity.add(components.get(i));
         }
         return this;
     }
@@ -70,12 +70,7 @@ public class MultiTileContainer {
     }
 
     public @Nonnull Entity createNewEntity() {
-        List<Object> components = new ArrayList<>();
-        for (ComponentContainer componentContainer : this.components) {
-            Object component = componentContainer.create();
-            if (component == null) continue;
-            components.add(component);
-        }
+        List<Object> components = componentsCreator.createComponents();
         Entity newEntity = MuTECore.ENGINE.createEntity(components.toArray());
         newEntity.add(
             new Id(

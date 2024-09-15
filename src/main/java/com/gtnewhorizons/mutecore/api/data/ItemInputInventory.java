@@ -16,6 +16,10 @@ public class ItemInputInventory implements ItemInventory, WorldStateValidator {
     private long limit;
     private UUID key;
 
+    public ItemInputInventory(Integer size, Long limit) {
+        this((int) size, (long) limit);
+    }
+
     public ItemInputInventory(int size, long limit) {
         inv = new IItemStackLong[size];
         for (int i = 0; i < size; i++) {
