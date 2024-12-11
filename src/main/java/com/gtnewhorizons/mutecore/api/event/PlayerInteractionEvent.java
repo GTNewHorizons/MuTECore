@@ -2,9 +2,11 @@ package com.gtnewhorizons.mutecore.api.event;
 
 import javax.annotation.Nonnull;
 
+import com.badlogic.ashley.core.Component;
+import com.badlogic.ashley.core.Entity;
+
 import net.minecraft.entity.player.EntityPlayer;
 
-import dev.dominion.ecs.api.Entity;
 
 public class PlayerInteractionEvent implements Comparable<PlayerInteractionEvent> {
 
@@ -16,7 +18,7 @@ public class PlayerInteractionEvent implements Comparable<PlayerInteractionEvent
         this.interaction = interaction;
     }
 
-    public final @Nonnull Object generate(@Nonnull EntityPlayer player, @Nonnull Entity entity) {
+    public final @Nonnull Component generate(@Nonnull EntityPlayer player, @Nonnull Entity entity) {
         return interaction.generateComponent(player, entity);
     }
 
@@ -24,7 +26,7 @@ public class PlayerInteractionEvent implements Comparable<PlayerInteractionEvent
     public static interface PlayerInteraction {
 
         @Nonnull
-        Object generateComponent(@Nonnull EntityPlayer player, @Nonnull Entity entity);
+        Component generateComponent(@Nonnull EntityPlayer player, @Nonnull Entity entity);
     }
 
     @Override

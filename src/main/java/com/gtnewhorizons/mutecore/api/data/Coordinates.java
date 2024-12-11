@@ -1,8 +1,10 @@
 package com.gtnewhorizons.mutecore.api.data;
 
+import com.badlogic.ashley.core.Component;
+
 import net.minecraft.nbt.NBTTagCompound;
 
-public class Coordinates implements WorldStateValidator {
+public class Coordinates implements Component, WorldStateValidator {
 
     private int x;
     private int y;

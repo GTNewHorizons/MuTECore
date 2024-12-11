@@ -1,9 +1,11 @@
 package com.gtnewhorizons.mutecore.api.data;
 
+import com.badlogic.ashley.core.Component;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class Direction implements WorldStateValidator {
+public class Direction implements Component, WorldStateValidator {
 
     private ForgeDirection direction;
 

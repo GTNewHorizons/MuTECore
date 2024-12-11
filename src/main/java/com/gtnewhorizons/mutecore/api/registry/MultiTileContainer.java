@@ -11,14 +11,14 @@ import javax.annotation.Nullable;
 
 import net.minecraft.nbt.NBTTagCompound;
 
+import com.badlogic.ashley.core.Component;
+import com.badlogic.ashley.core.Entity;
 import com.gtnewhorizons.mutecore.MuTECore;
 import com.gtnewhorizons.mutecore.api.data.FirstTickEvent;
 import com.gtnewhorizons.mutecore.api.data.WorldStateValidator;
 import com.gtnewhorizons.mutecore.api.gui.MuTEGUI;
 import com.gtnewhorizons.mutecore.api.item.TooltipAssigner;
 import com.gtnewhorizons.mutecore.api.tile.MultiTileEntity;
-
-import dev.dominion.ecs.api.Entity;
 
 public class MultiTileContainer {
 
@@ -36,12 +36,12 @@ public class MultiTileContainer {
         this.reg = new WeakReference<>(reg);
         this.clazz = clazz;
         this.id = id;
-        fakeEntity = MuTECore.ENGINE.createEntity(new FakeEntity());
+        fakeEntity = new Entity();
     }
 
     public @Nonnull MultiTileContainer componentsCreator(ComponentsCreator componentsCreator) {
         this.componentsCreator = componentsCreator;
-        List<Object> components = this.componentsCreator.createComponents();
+        List<Component> components = this.componentsCreator.createComponents();
         for (int i = 0; i < components.size(); i++) {
             fakeEntity.add(components.get(i));
         }
@@ -70,14 +70,18 @@ public class MultiTileContainer {
     }
 
     public @Nonnull Entity createNewEntity() {
-        List<Object> components = componentsCreator.createComponents();
-        Entity newEntity = MuTECore.ENGINE.createEntity(components.toArray());
+        List<? extends Component> components = componentsCreator.createComponents();
+        Entity newEntity = new Entity();
+        for (int i = 0; i < components.size(); i++) {
+            newEntity.add(components.get(i));
+        }
         newEntity.add(
             new Id(
                 id,
                 reg.get()
                     .getBlockId()));
         newEntity.add(new FirstTickEvent());
+        MuTECore.ENGINE.addEntity(newEntity);
         return newEntity;
     }
 
@@ -125,10 +129,10 @@ public class MultiTileContainer {
         return true;
     }
 
-    public static class FakeEntity {
+    public static class FakeEntity implements Component {
     }
 
-    public static class Id implements WorldStateValidator {
+    public static class Id implements Component, WorldStateValidator {
 
         private int id;
         private int regId;

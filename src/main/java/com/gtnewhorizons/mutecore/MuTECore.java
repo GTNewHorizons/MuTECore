@@ -6,11 +6,17 @@ import net.minecraft.nbt.NBTTagCompound;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.badlogic.ashley.core.Component;
+import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.cleanroommc.modularui.factory.GuiManager;
 import com.gtnewhorizons.mutecore.api.data.Coordinates;
 import com.gtnewhorizons.mutecore.api.data.GUIEvent;
 import com.gtnewhorizons.mutecore.api.data.WorldStateValidator;
 import com.gtnewhorizons.mutecore.api.event.PlayerInteractionEvent;
+import com.gtnewhorizons.mutecore.api.gui.GUISystem;
 import com.gtnewhorizons.mutecore.api.gui.MultiTileEntityGuiFactory;
 import com.gtnewhorizons.mutecore.api.registry.EventRegistry;
 import com.gtnewhorizons.mutecore.api.registry.MultiTileContainer.FakeEntity;
@@ -25,13 +31,10 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerAboutToStartEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
-import dev.dominion.ecs.api.Dominion;
-import dev.dominion.ecs.api.Entity;
-import dev.dominion.ecs.api.Results;
-import dev.dominion.ecs.engine.IntEntity;
 
 @Mod(
     modid = MuTECore.MODID,
@@ -49,14 +52,14 @@ public class MuTECore {
         clientSide = "com.gtnewhorizons.mutecore.ClientProxy",
         serverSide = "com.gtnewhorizons.mutecore.CommonProxy")
     public static CommonProxy proxy;
-    public static Dominion ENGINE;
+    public static Engine ENGINE;
     public static boolean ENABLE_TESTS;
 
     public MuTECore() {}
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        ENGINE = Dominion.create("MuTE");
+        ENGINE = new Engine();
         ENABLE_TESTS = (boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
         if (ENABLE_TESTS) {
             new TestRegistry().run();
@@ -71,23 +74,7 @@ public class MuTECore {
         proxy.init(initEvent);
         EventRegistry.registerPlayerInteractionEvent(
             new PlayerInteractionEvent(0, (p, e) -> PlayerHelper.isRealPlayer(p) ? new GUIEvent(p) : null));
-        SystemRegistrator.registerSystem(() -> {
-            Results<Results.With1<GUIEvent>> results = MuTECore.ENGINE.findEntitiesWith(GUIEvent.class);
-            for (Results.With1<GUIEvent> result : results) {
-                Entity entity = result.entity();
-                GUIEvent event = entity.get(GUIEvent.class);
-                Coordinates coords = entity.get(Coordinates.class);
-                NBTTagCompound nbt = new NBTTagCompound();
-                Object[] components = ((IntEntity) entity).getComponentArray();
-                for (Object component : components) {
-                    if (component instanceof WorldStateValidator validator) {
-                        validator.save(nbt);
-                    }
-                }
-                MultiTileEntityGuiFactory.open(event.getPlayer(), coords.getX(), coords.getY(), coords.getZ(), nbt);
-                entity.removeType(GUIEvent.class);
-            }
-        });
+        SystemRegistrator.registerSystem(new GUISystem());
     }
 
     @Mod.EventHandler
@@ -99,17 +86,20 @@ public class MuTECore {
     }
 
     @Mod.EventHandler
-    public void serverStarting(FMLServerStartingEvent event) {
-        proxy.serverStarting(event);
+    public void onServerAboutToStart(FMLServerAboutToStartEvent event) {
         MultiTileEntityRegistry.registerForSave();
     }
 
     @Mod.EventHandler
+    public void serverStarting(FMLServerStartingEvent event) {
+        proxy.serverStarting(event);
+    }
+
+    @Mod.EventHandler
     public void serverStopping(FMLServerStoppingEvent event) {
-        Results<Entity> results = ENGINE.findAllEntities();
+        ImmutableArray<Entity> results = ENGINE.getEntities();
         for (Entity entity : results) {
-            if (entity.has(FakeEntity.class)) continue;
-            ENGINE.deleteEntity(entity);
+            ENGINE.removeEntity(entity);
         }
     }
 }

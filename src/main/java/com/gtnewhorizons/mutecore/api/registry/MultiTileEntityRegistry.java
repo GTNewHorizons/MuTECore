@@ -43,6 +43,7 @@ public class MultiTileEntityRegistry {
             Pair<MultiTileEntityBlock, MultiTileEntityRegistry> pair = TO_REGISTER.get(i);
             int id = Block.getIdFromBlock(pair.left());
             REGISTRY_MAP.put(id, pair.right());
+            System.out.println("putting in registries");
         }
     }
 

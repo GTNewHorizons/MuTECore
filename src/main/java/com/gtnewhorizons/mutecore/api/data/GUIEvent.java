@@ -1,8 +1,10 @@
 package com.gtnewhorizons.mutecore.api.data;
 
+import com.badlogic.ashley.core.Component;
+
 import net.minecraft.entity.player.EntityPlayer;
 
-public class GUIEvent {
+public class GUIEvent implements Component {
 
     private EntityPlayer player;
 

@@ -12,13 +12,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
 
+import com.badlogic.ashley.core.Entity;
 import com.gtnewhorizons.mutecore.api.block.MultiTileEntityBlock;
 import com.gtnewhorizons.mutecore.api.data.PlayerUUID;
 import com.gtnewhorizons.mutecore.api.data.WorldContainer;
 import com.gtnewhorizons.mutecore.api.registry.MultiTileContainer;
 import com.gtnewhorizons.mutecore.api.tile.MultiTileEntity;
-
-import dev.dominion.ecs.api.Entity;
 
 public class MultiTileEntityItem extends ItemBlock implements IFluidContainerItem {
 
@@ -42,7 +41,7 @@ public class MultiTileEntityItem extends ItemBlock implements IFluidContainerIte
         Class<? extends TooltipAssigner> toolTipClass = container.getTooltipClass();
         if (toolTipClass == null) return;
         Entity entity = container.getFakeEntity();
-        TooltipAssigner tooltipData = entity.get(toolTipClass);
+        TooltipAssigner tooltipData = entity.getComponent(toolTipClass);
         tooltipData.assignTooltip(tooltip);
     }
 

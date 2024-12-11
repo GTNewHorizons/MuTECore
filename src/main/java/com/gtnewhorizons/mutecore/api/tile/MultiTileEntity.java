@@ -6,6 +6,9 @@ import net.minecraft.tileentity.TileEntity;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
+import com.badlogic.ashley.core.Component;
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.cleanroommc.modularui.api.IGuiHolder;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
@@ -21,9 +24,6 @@ import com.gtnewhorizons.mutecore.api.registry.MultiTileContainer;
 import com.gtnewhorizons.mutecore.api.registry.MultiTileContainer.Id;
 import com.gtnewhorizons.mutecore.api.registry.MultiTileEntityRegistry;
 
-import dev.dominion.ecs.api.Entity;
-import dev.dominion.ecs.engine.IntEntity;
-
 public class MultiTileEntity extends TileEntity implements IGuiHolder<ComponentData> {
 
     private Entity entity;
@@ -32,7 +32,7 @@ public class MultiTileEntity extends TileEntity implements IGuiHolder<ComponentD
 
     public void setEntity(Entity entity) {
         if (this.entity != null) {
-            MuTECore.ENGINE.deleteEntity(this.entity);
+            MuTECore.ENGINE.removeEntity(entity);
         }
         this.entity = entity;
     }
@@ -62,16 +62,16 @@ public class MultiTileEntity extends TileEntity implements IGuiHolder<ComponentD
         MultiTileEntityRegistry reg = ((MultiTileEntityBlock) data.getWorld()
             .getBlock(xCoord, yCoord, zCoord)).getRegistry();
         MultiTileContainer container = reg.getMultiTileContainer(
-            entity.get(Id.class)
+            entity.getComponent(Id.class)
                 .getId());
         if (entity == null) {
             entity = container.createNewEntity();
         }
-        if (!entity.has(WorldContainer.class)) {
+        if (entity.getComponent(WorldContainer.class) == null) {
             entity.add(new WorldContainer(syncManager.getPlayer().worldObj));
         }
-        Object[] components = ((IntEntity) entity).getComponentArray();
-        for (Object component : components) {
+        ImmutableArray<Component> components = entity.getComponents();
+        for (Component component : components) {
             if (component instanceof WorldStateValidator validator) {
                 validator.load(data.getComponentData());
             }
@@ -89,7 +89,7 @@ public class MultiTileEntity extends TileEntity implements IGuiHolder<ComponentD
         entity = container.createNewEntity();
         entity.add(new WorldContainer(getWorldObj()));
         entity.add(new Coordinates(xCoord, yCoord, zCoord));
-        Object[] components = ((IntEntity) entity).getComponentArray();
+        ImmutableArray<Component> components = entity.getComponents();
         for (Object component : components) {
             if (component instanceof WorldStateValidator validator) {
                 validator.load(nbt);
@@ -100,7 +100,7 @@ public class MultiTileEntity extends TileEntity implements IGuiHolder<ComponentD
     @Override
     public void writeToNBT(NBTTagCompound nbt) {
         super.writeToNBT(nbt);
-        Object[] components = ((IntEntity) entity).getComponentArray();
+        ImmutableArray<Component> components = entity.getComponents();
         for (Object component : components) {
             if (component instanceof WorldStateValidator validator) {
                 validator.save(nbt);

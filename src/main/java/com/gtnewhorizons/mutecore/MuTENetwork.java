@@ -17,6 +17,9 @@ import net.minecraft.world.chunk.Chunk;
 
 import org.jetbrains.annotations.Nullable;
 
+import com.badlogic.ashley.core.Component;
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.cleanroommc.modularui.network.IPacket;
 import com.gtnewhorizons.mutecore.api.block.MultiTileEntityBlock;
 import com.gtnewhorizons.mutecore.api.data.Coordinates;
@@ -30,8 +33,6 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
-import dev.dominion.ecs.api.Entity;
-import dev.dominion.ecs.engine.IntEntity;
 
 public class MuTENetwork {
 
@@ -122,9 +123,9 @@ public class MuTENetwork {
             Entity entity = container.createNewEntity();
             entity.add(coords);
             entity.add(new WorldContainer(Minecraft.getMinecraft().theWorld));
-            Object[] components = ((IntEntity) entity).getComponentArray();
-            for (int i = 0; i < components.length; i++) {
-                if (!(components[i] instanceof WorldStateValidator validator)) continue;
+            ImmutableArray<Component> components = entity.getComponents();
+            for (int i = 0; i < components.size(); i++) {
+                if (!(components.get(i) instanceof WorldStateValidator validator)) continue;
                 validator.load(data);
             }
             mute.setEntity(entity);

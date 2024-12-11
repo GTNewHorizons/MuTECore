@@ -6,6 +6,7 @@ import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.utils.Alignment;
 import com.gtnewhorizons.mutecore.api.block.MultiTileEntityBlock;
 import com.gtnewhorizons.mutecore.api.item.MultiTileEntityItem;
+import com.gtnewhorizons.mutecore.api.registry.ComponentsCreator;
 import com.gtnewhorizons.mutecore.api.registry.MultiTileEntityRegistry;
 import com.gtnewhorizons.mutecore.api.tile.MultiTileEntity;
 
@@ -27,10 +28,12 @@ public class TestRegistry implements Runnable {
     public void run() {
         TEST_REGISTRY.create(0, MultiTileEntity.class)
             .gui((entity, syncManager) -> { return new ModularPanel("testOne").align(Alignment.Center); })
+            .componentsCreator(new ComponentsCreator().build())
             .unlocalizedName("testblockone")
             .register();
         TEST_REGISTRY.create(1, MultiTileEntity.class)
             .gui((entity, syncManager) -> { return new ModularPanel("testTwo").align(Alignment.BottomCenter); })
+            .componentsCreator(new ComponentsCreator().build())
             .unlocalizedName("testblocktwo")
             .register();
     }

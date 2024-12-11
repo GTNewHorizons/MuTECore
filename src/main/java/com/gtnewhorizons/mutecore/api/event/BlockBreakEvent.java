@@ -2,7 +2,8 @@ package com.gtnewhorizons.mutecore.api.event;
 
 import javax.annotation.Nonnull;
 
-import dev.dominion.ecs.api.Entity;
+import com.badlogic.ashley.core.Entity;
+
 
 public class BlockBreakEvent implements Comparable<BlockBreakEvent> {
 

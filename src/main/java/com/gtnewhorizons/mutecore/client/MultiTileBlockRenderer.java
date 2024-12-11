@@ -7,6 +7,7 @@ import net.minecraft.world.IBlockAccess;
 
 import org.lwjgl.opengl.GL11;
 
+import com.badlogic.ashley.core.Entity;
 import com.gtnewhorizons.mutecore.api.block.MultiTileEntityBlock;
 import com.gtnewhorizons.mutecore.api.registry.MultiTileContainer.Id;
 import com.gtnewhorizons.mutecore.api.registry.MultiTileEntityRegistry;
@@ -14,7 +15,6 @@ import com.gtnewhorizons.mutecore.api.tile.MultiTileEntity;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import dev.dominion.ecs.api.Entity;
 
 public class MultiTileBlockRenderer implements ISimpleBlockRenderingHandler {
 
@@ -51,7 +51,7 @@ public class MultiTileBlockRenderer implements ISimpleBlockRenderingHandler {
         Entity entity = mute.getEntity();
         MultiTileEntityRegistry reg = mublock.getRegistry();
         reg.getRender(
-            entity.get(Id.class)
+            entity.getComponent(Id.class)
                 .getId())
             .render(entity, renderer, x, y, z, world);
 

@@ -1,9 +1,9 @@
 package com.gtnewhorizons.mutecore.api.render;
 
+import com.badlogic.ashley.core.Entity;
+
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.world.IBlockAccess;
-
-import dev.dominion.ecs.api.Entity;
 
 public interface MuTERender {
 

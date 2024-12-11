@@ -19,6 +19,8 @@ import net.minecraft.world.World;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
+import com.badlogic.ashley.core.Component;
+import com.badlogic.ashley.core.Entity;
 import com.gtnewhorizons.mutecore.MuTECore;
 import com.gtnewhorizons.mutecore.MuTENetwork;
 import com.gtnewhorizons.mutecore.MuTENetwork.MuTEPacket;
@@ -34,8 +36,6 @@ import com.gtnewhorizons.mutecore.api.registry.MultiTileContainer.Id;
 import com.gtnewhorizons.mutecore.api.registry.MultiTileEntityRegistry;
 import com.gtnewhorizons.mutecore.api.tile.MultiTileEntity;
 import com.gtnewhorizons.mutecore.client.MultiTileBlockRenderer;
-
-import dev.dominion.ecs.api.Entity;
 
 public class MultiTileEntityBlock extends BlockContainer {
 
@@ -59,7 +59,7 @@ public class MultiTileEntityBlock extends BlockContainer {
     public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) {
         Entity entity = ((MultiTileEntity) world.getTileEntity(x, y, z)).getEntity();
         return registry.getItemStack(
-            entity.get(Id.class)
+            entity.getComponent(Id.class)
                 .getId());
     }
 
@@ -98,14 +98,14 @@ public class MultiTileEntityBlock extends BlockContainer {
             packet.setComponentData(nbt);
             MuTENetwork.sendToPlayer(packet, playermp);
         }
-        Object eventComponent = null;
+        Component eventComponent = null;
         for (PlayerInteractionEvent preEvent : EventRegistry.PLAYER_INTERACTION_EVENTS) {
             eventComponent = preEvent.generate(player, mute.getEntity());
             if (eventComponent != null) break;
         }
         if (eventComponent == null) return false;
         if (mute.getEntity()
-            .has(eventComponent.getClass())) return false;
+            .getComponent(eventComponent.getClass()) != null) return false;
         mute.getEntity()
             .add(eventComponent);
         return true;
@@ -119,7 +119,7 @@ public class MultiTileEntityBlock extends BlockContainer {
         for (BlockBreakEvent preEvent : EventRegistry.BLOCK_BREAK_EVENTS) {
             preEvent.call(entity);
         }
-        MuTECore.ENGINE.deleteEntity(entity);
+        MuTECore.ENGINE.removeEntity(entity);
         super.breakBlock(worldIn, x, y, z, blockBroken, meta);
     }
 

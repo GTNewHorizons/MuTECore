@@ -2,9 +2,11 @@ package com.gtnewhorizons.mutecore.api.data;
 
 import java.util.UUID;
 
+import com.badlogic.ashley.core.Component;
+
 import net.minecraft.nbt.NBTTagCompound;
 
-public class PlayerUUID implements WorldStateValidator {
+public class PlayerUUID implements Component, WorldStateValidator {
 
     private UUID playerUUID;
 
