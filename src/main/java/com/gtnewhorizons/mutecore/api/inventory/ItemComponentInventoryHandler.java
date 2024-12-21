@@ -56,7 +56,7 @@ public class ItemComponentInventoryHandler implements IItemHandlerLong {
             original.setStackSize(0);
         }
         if (!ItemHandlerHelper.canItemStacksStack(original, stack)) return stack;
-        long amountToInsert = Math.min(stack.getStackSize(), getSlotLimitLong(slot) - original.getStackSize());
+        long amountToInsert = Math.max(stack.getStackSize(), getSlotLimitLong(slot) - original.getStackSize());
         stack.setStackSize(stack.getStackSize() - amountToInsert);
         if (simulate) {
             return stack;
