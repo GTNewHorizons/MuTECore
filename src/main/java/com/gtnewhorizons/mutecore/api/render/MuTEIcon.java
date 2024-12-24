@@ -8,20 +8,24 @@ import com.gtnewhorizons.mutecore.api.registry.TextureRegistry;
 
 public class MuTEIcon implements IIcon {
 
-    private String iconPath;
-    private IIcon icon;
+    protected ResourceLocation iconResource;
+    protected IIcon icon;
 
     public MuTEIcon(String modid, String path) {
-        this(new ResourceLocation(modid, path).toString());
-    }
-
-    public MuTEIcon(String path) {
-        iconPath = path;
+        iconResource = new ResourceLocation(modid, path);
         TextureRegistry.registerBlockIcon(this);
     }
 
+    public IIcon getInternalIcon() {
+        return icon;
+    }
+
+    public ResourceLocation getIconLocation() {
+        return iconResource;
+    }
+
     public void register(IIconRegister reg) {
-        icon = reg.registerIcon(iconPath);
+        icon = reg.registerIcon(iconResource.toString());
     }
 
     @Override
