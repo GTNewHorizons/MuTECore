@@ -1,6 +1,5 @@
-// Add any additional repositories for your dependencies here.
+// Add any additional repositiroes for your dependencies here
 
 repositories {
-    mavenLocal()
-    maven { url "https://oss.sonatype.org/content/repositories/releases/" }
 }
+
