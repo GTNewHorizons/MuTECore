@@ -34,13 +34,13 @@
  * For more details, see https://docs.gradle.org/8.0.1/userguide/java_library_plugin.html#sec:java_library_configurations_graph
  */
 dependencies {
-    runtimeOnlyNonPublishable("com.github.GTNewHorizons:NotEnoughItems:2.6.36-GTNH:dev")
-    api("com.github.GTNewHorizons:GTNHLib:0.5.11:dev")
-    api("com.github.GTNewHorizons:ModularUI2:2.1.8-1.7.10:dev")
+    runtimeOnlyNonPublishable("com.github.GTNewHorizons:NotEnoughItems:2.7.4-GTNH:dev")
+    api("com.github.GTNewHorizons:GTNHLib:0.6.0:dev")
+    api("com.github.GTNewHorizons:ModularUI2:2.1.16-1.7.10:dev")
     //shadowImplementation("dev.dominion.ecs:dominion-ecs-engine:0.9.0") // MIT License
     shadowImplementation("com.badlogicgames.ashley:ashley:1.7.4") // Apache 2.0 License
-    api("com.github.GTNewHorizons:waila:1.8.1:dev")
-    //api("com.github.GTNewHorizons:Angelica:1.0.0-beta6:dev")
-    //implementation("com.github.GTNewHorizons:Galacticraft:3.2.4-GTNH:dev")
+    api("com.github.GTNewHorizons:waila:1.8.2:dev")
+    //api("com.github.GTNewHorizons:Angelica:1.0.0-beta27:dev")
+    //implementation("com.github.GTNewHorizons:Galacticraft:3.2.8-GTNH:dev")
 }
 
