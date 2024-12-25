@@ -42,6 +42,6 @@ dependencies {
     api("com.github.GTNewHorizons:waila:1.8.2:dev")
     //api("com.github.GTNewHorizons:Angelica:1.0.0-beta27:dev")
     //implementation("com.github.GTNewHorizons:Galacticraft:3.2.8-GTNH:dev")
-	compileOnlyApi('com.github.GTNewHorizons:ModularUI:1.2.17:api') { transitive = false }
+	compileOnlyApi("com.github.GTNewHorizons:ModularUI:1.2.17:dev") { transitive = false }
 }
 
