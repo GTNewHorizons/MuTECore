@@ -7,7 +7,6 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 
 public class SystemRegistrator {
 
-
     /**
      * Register a single system. It will be ran after the last registered system
      */

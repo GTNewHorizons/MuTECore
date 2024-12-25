@@ -2,11 +2,10 @@ package com.gtnewhorizons.mutecore.api.event;
 
 import javax.annotation.Nonnull;
 
-import com.badlogic.ashley.core.Component;
-import com.badlogic.ashley.core.Entity;
-
 import net.minecraft.entity.player.EntityPlayer;
 
+import com.badlogic.ashley.core.Component;
+import com.badlogic.ashley.core.Entity;
 
 public class PlayerInteractionEvent implements Comparable<PlayerInteractionEvent> {
 

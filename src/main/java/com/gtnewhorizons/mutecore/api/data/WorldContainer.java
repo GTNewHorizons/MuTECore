@@ -1,8 +1,8 @@
 package com.gtnewhorizons.mutecore.api.data;
 
-import com.badlogic.ashley.core.Component;
-
 import net.minecraft.world.World;
+
+import com.badlogic.ashley.core.Component;
 
 public class WorldContainer implements Component {
 

@@ -2,9 +2,9 @@ package com.gtnewhorizons.mutecore.api.event;
 
 import javax.annotation.Nonnull;
 
-import com.badlogic.ashley.core.Entity;
-
 import net.minecraft.block.Block;
+
+import com.badlogic.ashley.core.Entity;
 
 public class NeighborBlockChangeEvent implements Comparable<NeighborBlockChangeEvent> {
 

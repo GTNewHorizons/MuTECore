@@ -33,35 +33,43 @@ public class TestRegistry implements Runnable {
     @Override
     public void run() {
         TEST_REGISTRY.create(0, MultiTileEntity.class)
-                .gui((entity, syncManager) -> {
-                    ItemInventory inventory = entity.getComponent(ItemInputInventory.class);
-                    ItemComponentInventoryHandler inventoryHandler = new ItemComponentInventoryHandler(inventory);
-                    final ScrollWidget<?> scrollable = new ScrollWidget<>();
-                    SlotGroupWidget slotGroup = new SlotGroupWidget();
-                    scrollable.size(64, 64).child(slotGroup);
-                    for (int row = 0; row * 4 < inventory.getSize() - 1; row++) {
-                        int columnsToMake = Math.min(inventory.getSize() - row * 4, 4);
-                        for (int column = 0; column < columnsToMake; column++) {
-                            slotGroup.child(new ItemSlotLong().slot(inventoryHandler, row * 4 + column)
-                                    .pos(column * 18, row * 18).size(18, 18));
-                        }
+            .gui((entity, syncManager) -> {
+                ItemInventory inventory = entity.getComponent(ItemInputInventory.class);
+                ItemComponentInventoryHandler inventoryHandler = new ItemComponentInventoryHandler(inventory);
+                final ScrollWidget<?> scrollable = new ScrollWidget<>();
+                SlotGroupWidget slotGroup = new SlotGroupWidget();
+                scrollable.size(64, 64)
+                    .child(slotGroup);
+                for (int row = 0; row * 4 < inventory.getSize() - 1; row++) {
+                    int columnsToMake = Math.min(inventory.getSize() - row * 4, 4);
+                    for (int column = 0; column < columnsToMake; column++) {
+                        slotGroup.child(
+                            new ItemSlotLong().slot(inventoryHandler, row * 4 + column)
+                                .pos(column * 18, row * 18)
+                                .size(18, 18));
                     }
+                }
 
-                    return new ModularPanel("testOne").align(Alignment.Center).child(scrollable.align(Alignment.Center)).bindPlayerInventory();
-                })
-                .componentsCreator(new ComponentsCreator().component(() -> new ItemInputInventory(3, 64)).build())
-                .unlocalizedName("testblockone").register();
-        TEST_REGISTRY.create(1, MultiTileEntity.class).gui((entity, syncManager) ->
+                return new ModularPanel("testOne").align(Alignment.Center)
+                    .child(scrollable.align(Alignment.Center))
+                    .bindPlayerInventory();
+            })
+            .componentsCreator(
+                new ComponentsCreator().component(() -> new ItemInputInventory(3, 64))
+                    .build())
+            .unlocalizedName("testblockone")
+            .register();
+        TEST_REGISTRY.create(1, MultiTileEntity.class)
+            .gui((entity, syncManager) ->
 
-        {
-            return new ModularPanel("testTwo").align(Alignment.BottomCenter);
-        }).componentsCreator(new ComponentsCreator().build()).unlocalizedName("testblocktwo").register();
+            { return new ModularPanel("testTwo").align(Alignment.BottomCenter); })
+            .componentsCreator(new ComponentsCreator().build())
+            .unlocalizedName("testblocktwo")
+            .register();
     }
 
     public static void registerRenders() {
-        TEST_REGISTRY.registerRender(0, (e, rb, x, y, z, w) -> {
-        });
-        TEST_REGISTRY.registerRender(1, (e, rb, x, y, z, w) -> {
-        });
+        TEST_REGISTRY.registerRender(0, (e, rb, x, y, z, w) -> {});
+        TEST_REGISTRY.registerRender(1, (e, rb, x, y, z, w) -> {});
     }
 }

@@ -2,9 +2,9 @@ package com.gtnewhorizons.mutecore.api.event;
 
 import javax.annotation.Nonnull;
 
-import com.badlogic.ashley.core.Entity;
-
 import net.minecraft.tileentity.TileEntity;
+
+import com.badlogic.ashley.core.Entity;
 
 public class NeighborTileChangeEvent implements Comparable<NeighborTileChangeEvent> {
 

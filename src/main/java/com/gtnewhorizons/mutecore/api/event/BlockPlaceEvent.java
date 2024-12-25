@@ -4,7 +4,6 @@ import javax.annotation.Nonnull;
 
 import com.badlogic.ashley.core.Entity;
 
-
 public class BlockPlaceEvent implements Comparable<BlockPlaceEvent> {
 
     private int priority;

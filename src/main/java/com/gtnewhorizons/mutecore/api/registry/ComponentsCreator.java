@@ -28,7 +28,9 @@ public class ComponentsCreator {
         if (!built) throw new IllegalStateException("Cannot create components when the builder is unfinished");
         List<Component> components = new ArrayList<>();
         for (int i = 0; i < componentBuilders.size(); i++) {
-            components.add(componentBuilders.get(i).get());
+            components.add(
+                componentBuilders.get(i)
+                    .get());
         }
         return components;
     }
